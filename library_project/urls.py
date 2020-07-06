@@ -21,5 +21,7 @@ from digital_books import views as DBviews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('custom_user/', CUviews.index),
-    path('digital_books/', DBviews.index)
+    path('digital_books/', DBviews.index),
+    # path('profile/<str:username>', DBviews.index),
+    path('profile/', CUviews.profile, name='profile')
 ]
