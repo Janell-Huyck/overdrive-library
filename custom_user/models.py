@@ -8,7 +8,7 @@ class CustomUser(AbstractUser):
     library_card_number = models.PositiveIntegerField(null=True, blank=True)
     email = models.EmailField(max_length=254)
     signup_date = models.DateField(auto_now_add=True, null=True, blank=True)
-    is_admin = models.BooleanField(default=False)
+    is_librarian = models.BooleanField(default=False)
     display_name = models.CharField(max_length=50, unique=True)
     REQUIRED_FIELDS = ['email', 'display_name']
 
@@ -16,9 +16,15 @@ class CustomUser(AbstractUser):
         return self.display_name
 
     def save(self, *args, **kwargs):
-        if not self.library_card_number:
-            self.library_card_number = makenumber()
-        super(CustomUser, self).save(**args, **kwargs)
+        while not self.library_card_number:
+            new_number = makenumber()
+            all_numbers = [custom_user.library_card_number
+                           for custom_user
+                           in CustomUser.objects.all()
+                           ]
+            if new_number not in all_numbers:
+                self.library_card_number = new_number
+        super(CustomUser, self).save(*args, **kwargs)
 
 
 """
