@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from custom_user.models import CustomUserModel
+from custom_user.models import CustomUser
 
 
 # Create your views here.
@@ -8,6 +8,6 @@ def index(request):
 
 
 def profile(request):
-    # my_user = CustomUserModel.objects.get(pk=request.pk)
-    # return render(request, 'custom_user/profile.html', {'my_user': my_user})
-    return render(request, 'custom_user/profile.html')
+    custom_user = CustomUser.objects.get(
+        library_card_number=request.user.library_card_number)
+    return render(request, 'custom_user/profile.html', {'custom_user': custom_user})
