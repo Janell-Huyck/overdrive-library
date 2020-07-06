@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(max_length=254)
     signup_date = models.DateField(auto_now_add=True, null=True, blank=True)
     is_librarian = models.BooleanField(default=False)
-    display_name = models.CharField(max_length=50, unique=True)
+    display_name = models.CharField(max_length=50)
     REQUIRED_FIELDS = ['email', 'display_name']
 
     def __str__(self):

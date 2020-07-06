@@ -22,9 +22,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('display_name', 'email', 'library_card_number',
                    'signup_date', 'is_librarian')
     fieldsets = (
-        (None, {'fields': ('display_name', 'email', 'library_card_number',
-                           'signup_date', 'is_librarian')}),
-        #  ("Permissions", {"fields": ("is_staff", "is_active")}),
+        (None, {'fields': ('display_name', 'email',
+                           'is_librarian')}),
     )
 
 
