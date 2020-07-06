@@ -1,3 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
+"""
+User: CharField
+
+library card number : integer field
+password :  Charfield, password widget
+signup date: datefield
+email: email field
+Age: float
+IsBoolean: True
+
+"""
