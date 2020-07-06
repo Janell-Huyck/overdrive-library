@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from custom_user import views as CUviews
+from digital_books import views as DBviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('custom_user/', CUviews.index),
+    path('digital_books/', DBviews.index)
 ]
