@@ -9,6 +9,6 @@ password :  Charfield, password widget
 signup date: datefield
 email: email field
 Age: float
-IsBoolean: True
+Is an admin: Boolean
 
 """
