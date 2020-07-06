@@ -10,4 +10,4 @@ def index(request):
 def profile(request):
     # my_user = CustomUserModel.objects.get(pk=request.pk)
     # return render(request, 'custom_user/profile.html', {'my_user': my_user})
-    pass
+    return render(request, 'custom_user/profile.html')
