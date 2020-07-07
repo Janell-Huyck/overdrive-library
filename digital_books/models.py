@@ -21,10 +21,17 @@ class Book(models.Model):
     checked_out = models.ManyToManyField(CustomUser, related_name='checked_out')
     holds = models.ManyToManyField(CustomUser, related_name='holds')
     # , through='HoldOrder'
+    # add to holds for time_created currently removed because causing problems
     URL = models.URLField(max_length=200)
+    @property
+    def available(self):
+        return self.limit > len(self.checked_out)
 
 
-class HoldOrder(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    time_created = models.DateTimeField(auto_now_add=True)
+# class HoldOrder(models.Model):
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+#     time_created = models.DateTimeField(auto_now_add=True)
+
+#     class Meta:
+#         ordering = ('time_created',)
