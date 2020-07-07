@@ -3,13 +3,10 @@
 {% block body_block %}
 <h1>My Profile</h1>
 
-<!-- 
 <h4>Library Card Number: {{custom_user.library_card_number}}</h4>
+<p>Display name: {{custom_user.display_name}}</p>
 <p>Email: {{custom_user.email}}</p>
-<p>Your Age: {{custom_user.age}}</p>
 <p>Date joined: {{custom_user.signup_date}}</p>
-<p>Library Card Number: {{custom_user.library_card_number}}</p>
-<p>Are you admin? -> {% if custom_user.is_an_admin %} Yes {% else %} No {% endif %}</p>
--->
+<p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
 
 {% endblock body_block %}
