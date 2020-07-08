@@ -30,7 +30,7 @@ def createBook(request):
                 URL=data['URL']
             )
             new_book.save()
-            return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(reverse('all_books'))
 
     form = BookForm()
     return render(request, 'digital_books/book_form.html', {'form': form})
