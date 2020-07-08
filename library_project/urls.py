@@ -23,5 +23,7 @@ urlpatterns = [
     path('digital_books/', include('digital_books.urls')),
     path('profile/', CUviews.profile, name='profile'),
     path('create_user/', CUviews.createUser, name='create_user'),
-    path('login/', CUviews.Login.as_view(), name='login')
+    path('login/', CUviews.Login.as_view(), name='login'),
+    path('logoutview/', CUviews.logoutview, name='logoutview')
+
 ]

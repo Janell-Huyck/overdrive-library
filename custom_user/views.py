@@ -79,4 +79,10 @@ def profile(request):
     """ For profile page - returns logged in user's profile data"""
     custom_user = CustomUser.objects.get(
         library_card_number=request.user.library_card_number)
-    return render(request, 'custom_user/profile.html', {'custom_user': custom_user})
+    return render(request,
+                  'custom_user/profile.html', {'custom_user': custom_user})
+
+
+def logoutview(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('home'))
