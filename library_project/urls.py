@@ -19,8 +19,7 @@ from custom_user import views as CUviews
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('custom_user/', CUviews.index),
+    path('admin/', admin.site.urls, name='admin'),
     path('digital_books/', include('digital_books.urls')),
     path('profile/', CUviews.profile, name='profile'),
     path('create_user/', CUviews.createUser, name='create_user'),

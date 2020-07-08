@@ -8,10 +8,6 @@ from django.views.generic.base import View
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'custom_user/index.html')
-
-
 def createUser(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
