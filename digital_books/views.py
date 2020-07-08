@@ -48,7 +48,7 @@ def createGutenberg(request):
                 URL=data['URL']
             )
             new_book.save()
-            return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
     new_title, new_author = scrap_html(projectg)
