@@ -83,6 +83,10 @@ def profile(request):
                   'custom_user/profile.html', {'custom_user': custom_user})
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
 def logoutview(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))

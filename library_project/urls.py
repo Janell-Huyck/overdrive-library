@@ -24,6 +24,7 @@ urlpatterns = [
     path('profile/', CUviews.profile, name='profile'),
     path('create_user/', CUviews.createUser, name='create_user'),
     path('login/', CUviews.Login.as_view(), name='login'),
-    path('logoutview/', CUviews.logoutview, name='logoutview')
+    path('logoutview/', CUviews.logoutview, name='logoutview'),
+    path('', CUviews.index, name='home')
 
 ]
