@@ -1,13 +1,48 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import HttpResponseRedirect, reverse
 from custom_user.models import CustomUser
-
+from custom_user.forms import SignupForm
 
 # Create your views here.
+
+
 def index(request):
     return render(request, 'custom_user/index.html')
 
 
+def createUser(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            custom_user = CustomUser.objects.create(
+                username=data['username'],
+                password=data['password'],
+                display_name=data['display_name'],
+                email=data['email'],
+                is_librarian=False
+            )
+            custom_user.set_password(raw_password=data['password'])
+            custom_user.save()
+
+            custom_user = authenticate(
+                request,
+                username=data['username'],
+                password=data['password'],
+                display_name=data['display_name'],
+                email=data['email'],
+            )
+            if custom_user:
+                login(request, custom_user)
+                return HttpResponseRedirect(
+                    request.GET.get('next', reverse('home')))
+    form = SignupForm()
+    return render(request, 'custom_user/generic_form.html', {'form': form})
+
+
 def profile(request):
+    """ For profile page - returns logged in user's profile data"""
     custom_user = CustomUser.objects.get(
         library_card_number=request.user.library_card_number)
     return render(request, 'custom_user/profile.html', {'custom_user': custom_user})
