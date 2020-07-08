@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponseRedirect, reverse
 from digital_books.forms import BookForm
 from digital_books.models import Book
 from digital_books.helpers import scrap_html
+from custom_user.models import CustomUser
 
 
 # Create your views here.
@@ -60,3 +61,9 @@ def createGutenberg(request):
         'form': form,
         'show_gutenberg': True
     })
+
+
+def detail_book(request, id):
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
+    return render(request, 'digital_books/book_detail.html', {'book': book})
