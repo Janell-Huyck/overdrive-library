@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends '../base.html' %}
+{% block body_block %}
+<h1>{{ book.id }} Detail of a single book</h1>
+
+<h3>{{ book.title }}</h3>
+<p>{{ book.author }}</p>
+<p>{{ book.description }}</p>
+
+<a href={{ book.URL }} target="_blank">{{ book.URL }}</a>
+
+{% endblock body_block %}
