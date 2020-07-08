@@ -9,4 +9,12 @@
 
 <a href={{ book.URL }} target="_blank">{{ book.URL }}</a>
 
+<br>
+<br>
+{% if checkout %}
+<a style="background-color: skyblue" href="{% url 'checkin' book.id %}">Check In</a>
+{% else %}
+<a style="background-color: red;" href="{% url 'checkout' book.id %}">Check Out</a>
+{% endif %}
+
 {% endblock body_block %}
