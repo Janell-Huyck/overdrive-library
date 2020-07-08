@@ -66,4 +66,30 @@ def createGutenberg(request):
 def detail_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
-    return render(request, 'digital_books/book_detail.html', {'book': book})
+    checkout = False
+    if usr in book.checked_out.all():
+        checkout = True
+    return render(request, 'digital_books/book_detail.html', {
+        'book': book,
+        'checkout': checkout
+        })
+
+
+def checkout_book(request, id):
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
+    book.checked_out.add(usr)
+    try:
+        book.save()
+    except:
+        book.checked_out.remove(usr)
+        book.save()
+    return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
+
+def checkin_book(request, id):
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
+    book.checked_out.remove(usr)
+    book.save()
+    return HttpResponseRedirect(reverse('detail_book', args=(id, )))
