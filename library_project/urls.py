@@ -16,13 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from custom_user import views as CUviews
-from digital_books import views as DBviews
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('custom_user/', CUviews.index),
-    path('digital_books/', DBviews.index, name='home'),
-    path('books/', include('digital_books.urls'), name='books'),
+    path('digital_books/', include('digital_books.urls')),
     path('profile/', CUviews.profile, name='profile'),
     path('create_user/', CUviews.createUser, name='create_user')
 ]
