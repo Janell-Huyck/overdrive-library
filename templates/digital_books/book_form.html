@@ -4,6 +4,7 @@
 {% block body_block %}
 <form method="post">
     {% csrf_token %}
+    <br/>
     {{ form.as_p }}
     <input type="submit" value="Submit">
 </form>
