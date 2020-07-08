@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import HttpResponseRedirect, reverse
 from custom_user.models import CustomUser
-from custom_user.forms import SignupForm
+from custom_user.forms import SignupForm, LoginForm
+from django.views.generic.base import View
 
 # Create your views here.
 
@@ -39,6 +40,43 @@ def createUser(request):
                     request.GET.get('next', reverse('home')))
     form = SignupForm()
     return render(request, 'custom_user/generic_form.html', {'form': form})
+
+
+class Login(View):
+    html = 'custom_user/generic_form.html'
+
+    def get(self, request):
+        form = LoginForm()
+        return render(request, self.html,
+                      {"form": form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            current_user = authenticate(
+                request,
+                username=CustomUser.objects.filter(
+                    library_card_number=data[
+                        'library_card_number'])[0].username,
+                password=data['password']
+            )
+
+            if current_user:
+                login(request, current_user)
+                return HttpResponseRedirect(reverse("home"))
+            else:
+                render(request, self.html,
+                       {"form": form,
+                        "message_before": """Credentials do not match.
+                        Please check your card number and password and
+                        try again."""})
+        return render(request, self.html, {"form": form,
+                                           "message_before": """Unable to authorize.
+                                           Please verify your library card number 
+                                           and password and try again."""
+                                           })
 
 
 def profile(request):
