@@ -18,9 +18,8 @@
                     <a class="btn btn-primary btn-sm" href="{% url 'create_book'%}">Add Books</a>
                 {% endif %}
                 
-                {% comment %} Only shows if you're logged in. {% endcomment %}
-                {% comment %} <a class="btn btn-primary btn-sm" href="{% url 'logout'%}">Log Out</a> {% endcomment %}
                 {% if user.is_authenticated %}
+                <a class="btn btn-primary btn-sm" href="{% url 'logoutview'%}">Log Out</a>
                     <div class="signedIn">
                         Logged in as: {{user.username}}
                     </div>
