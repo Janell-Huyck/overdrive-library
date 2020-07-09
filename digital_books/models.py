@@ -37,10 +37,10 @@ class Book(models.Model):
 
     # limit 3 user's object
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if self.checked_out.count() > self.limit:
             raise ValidationError(
                 "Maximum {} related objects are allowed".format(self.limit))
-        super().save(*args, **kwargs)
 
 
 class HoldOrder(models.Model):
