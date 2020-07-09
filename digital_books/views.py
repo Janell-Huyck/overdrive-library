@@ -76,7 +76,6 @@ def detail_book(request, id):
         for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
             if item.user == request.user:
                 line_number = index + 1
-       
 
     return render(request, 'digital_books/book_detail.html', {
         'book': book,
@@ -110,18 +109,17 @@ def checkin_book(request, id):
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
 
-                    
 def hold_book(request, id):
-    book = Book.objects.get(id=id) 
-    usr = CustomUser.objects.get(id=request.user.id)   
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
     book.holds.add(usr)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
+
 def remove_hold_book(request, id):
-    book = Book.objects.get(id=id) 
-    usr = CustomUser.objects.get(id=request.user.id) 
-    breakpoint()  
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
     book.holds.remove(usr)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
