@@ -8,5 +8,12 @@
 <p>Email: {{custom_user.email}}</p>
 <p>Date joined: {{custom_user.signup_date}}</p>
 <p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
-
+<br/>
+<h4>Books you have checked out:<h4>
+{% for book in books_out %}
+    <a href='../digital_books/{{book.id}}'>{{book.title}}</a><br/>
+    {% empty %}
+    <br/>
+    <p> No books currently checked out </p>
+{% endfor %}
 {% endblock body_block %}

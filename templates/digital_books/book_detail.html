@@ -7,14 +7,14 @@
 <p>{{ book.author }}</p>
 <p>{{ book.description }}</p>
 
-<a href={{ book.URL }} target="_blank">{{ book.URL }}</a>
 
 <br>
 <br>
 {% if checkout %}
-<a style="background-color: skyblue" href="{% url 'checkin' book.id %}">Check In</a>
+    <p>Read online now: <a href={{ book.URL }} target="_blank">{{ book.URL }}</a> </p>
+    <a style="background-color: skyblue" href="{% url 'checkin' book.id %}">Return Book</a>
 {% else %}
-<a style="background-color: red;" href="{% url 'checkout' book.id %}">Check Out</a>
+    <a style="background-color: red;" href="{% url 'checkout' book.id %}">Check Out</a>
 {% endif %}
 
 {% endblock body_block %}

@@ -4,6 +4,7 @@ from django.shortcuts import HttpResponseRedirect, reverse
 from custom_user.models import CustomUser
 from custom_user.forms import SignupForm, LoginForm
 from django.views.generic.base import View
+from digital_books.models import Book
 
 # Create your views here.
 
@@ -79,8 +80,13 @@ def profile(request):
     """ For profile page - returns logged in user's profile data"""
     custom_user = CustomUser.objects.get(
         library_card_number=request.user.library_card_number)
+    books_queryset_out = Book.objects.filter(
+        checked_out__username__icontains=custom_user.username)
+    books_out = [book for book in books_queryset_out]
+
     return render(request,
-                  'custom_user/profile.html', {'custom_user': custom_user})
+                  'custom_user/profile.html',
+                  {'custom_user': custom_user, 'books_out': books_out})
 
 
 def index(request):
