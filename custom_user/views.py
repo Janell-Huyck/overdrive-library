@@ -6,6 +6,7 @@ from custom_user.forms import SignupForm, LoginForm
 from django.views.generic.base import View
 from digital_books.models import Book
 
+
 # Create your views here.
 
 
@@ -83,10 +84,14 @@ def profile(request):
     books_queryset_out = Book.objects.filter(
         checked_out__username__icontains=custom_user.username)
     books_out = [book for book in books_queryset_out]
-
+    books_queryset_hold = Book.objects.filter(
+        holds__username__icontains=custom_user.username)
+    books_hold = [book for book in books_queryset_hold]
     return render(request,
                   'custom_user/profile.html',
-                  {'custom_user': custom_user, 'books_out': books_out})
+                  {'custom_user': custom_user,
+                   'books_out': books_out,
+                   'books_hold': books_hold})
 
 
 def index(request):
