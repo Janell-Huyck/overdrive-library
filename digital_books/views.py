@@ -76,8 +76,6 @@ def detail_book(request, id):
     if held == True:
         qs = Book.objects.get(id=id).holdorder_set.all()
         for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
-            
-            line_number = 3
             if item.user == request.user:
                 line_number = index + 1
        
