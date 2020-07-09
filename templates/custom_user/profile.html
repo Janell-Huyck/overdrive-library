@@ -8,5 +8,24 @@
 <p>Email: {{custom_user.email}}</p>
 <p>Date joined: {{custom_user.signup_date}}</p>
 <p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
-
+<br/>
+<h4>Books you have checked out:<h4>
+{% for book in books_out %}
+        <hr/>
+        <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
+        <a class="btn btn-secondary btn-sm" href={{book.URL}} target="_blank">Read Now</a>
+        <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/checkin'>Return Book</a><br/>
+    {% empty %}
+        <hr/>
+        <p> No books currently checked out </p>
+{% endfor %}
+<hr/><hr/>
+<h4>Books you have on hold</h4>
+{% for book in books_hold %}
+        <hr/>
+        <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
+    {% empty %}
+        <hr/>
+        <p> No books currently on hold </p>
+{% endfor %}
 {% endblock body_block %}
