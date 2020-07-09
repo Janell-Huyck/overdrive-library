@@ -24,6 +24,8 @@
 {% for book in books_hold %}
         <hr/>
         <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
+        <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/remove_hold'>Remove Hold</a><br/>
+
     {% empty %}
         <hr/>
         <p> No books currently on hold </p>
