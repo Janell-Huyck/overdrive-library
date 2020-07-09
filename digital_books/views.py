@@ -23,13 +23,12 @@ def createBook(request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            new_book = Book.objects.create(
+            Book.objects.create(
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL']
             )
-            new_book.save()
             return HttpResponseRedirect(reverse('all_books'))
 
     form = BookForm()
@@ -41,13 +40,12 @@ def createGutenberg(request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            new_book = Book.objects.create(
+            Book.objects.create(
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL']
             )
-            new_book.save()
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
