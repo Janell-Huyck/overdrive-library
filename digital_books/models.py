@@ -33,14 +33,14 @@ class Book(models.Model):
 
     @property
     def available(self):
-        return self.limit > len(self.checked_out)
+        return self.limit > len(self.checked_out.all())
 
     # limit 3 user's object
-    def save(self, *args, **kwargs):
-        if self.checked_out.count() > self.limit:
-            raise ValidationError(
-                "Maximum {} related objects are allowed".format(self.limit))
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.checked_out.count() > self.limit:
+    #         raise ValidationError(
+    #             "Maximum {} related objects are allowed".format(self.limit))
+    #     super().save(*args, **kwargs)
 
 
 class HoldOrder(models.Model):
@@ -50,6 +50,7 @@ class HoldOrder(models.Model):
 
     class Meta:
         ordering = ('time_created',)
+
 
 # to get a reference to the next user with a hold
 # try:

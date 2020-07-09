@@ -39,16 +39,6 @@ def createUser(request):
     form = SignupForm()
     return render(request, 'custom_user/generic_form.html', {'form': form})
 
-def checkin(request, id):
-    book = Book.objects.get(id=id)
-    book.holds.remove(request.user)
-    return HttpResponseRedirect(
-                    request.GET.get('next', reverse('home')))
-                    
-def hold(request, id):
-    book = Book.objects.get(id=id)    
-    book.holds.add(request.user)
-
 
 class Login(View):
     html = 'custom_user/generic_form.html'
