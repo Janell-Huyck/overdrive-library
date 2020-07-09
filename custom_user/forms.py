@@ -12,5 +12,8 @@ class SignupForm(forms.Form):
 class LoginForm(forms.ModelForm):
 
     class Meta:
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
         model = CustomUser
         fields = ('library_card_number', 'password',)

@@ -1,0 +1,28 @@
+            <div class="topnav">
+
+                {% comment %} Only shows if you're logged out {% endcomment %}
+                {% if not user.is_authenticated %}
+                    <a class="btn btn-primary btn-sm" href="{% url 'create_user'%}">Create New Account</a>
+                    <a class="btn btn-primary btn-sm" href="{% url 'login'%}">Log In</a>
+                {% endif %}
+
+                {% comment %} Only shows if you're logged in. {% endcomment %}
+                {% if user.is_authenticated %}
+                    <a class="btn btn-primary btn-sm" href="{% url 'all_books'%}">Browse Books</a>
+                    <a class="btn btn-primary btn-sm" href="{% url 'profile'%}">Your Profile</a>
+
+                {% endif %}
+
+                {% comment %} Only shows if you're logged in and a librarian. {% endcomment %}
+                {% if user.is_librarian%}    
+                    <a class="btn btn-primary btn-sm" href="{% url 'create_book'%}">Add Books</a>
+                {% endif %}
+                
+                {% if user.is_authenticated %}
+                <a class="btn btn-primary btn-sm" href="{% url 'logoutview'%}">Log Out</a>
+                    <div class="signedIn">
+                        Logged in as: {{user.username}}
+                    </div>
+                {% endif %}
+
+            </div>

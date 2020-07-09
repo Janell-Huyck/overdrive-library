@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends '../base.html' %}
+{% block body_block %}
+<h1>About This Book</h1>
+
+<h3>{{ book.title }}</h3>
+<p>{{ book.author }}</p>
+<p>{{ book.description }}</p>
+
+
+<br>
+<br>
+{% if checkout %}
+    <p>Read online now: <a href={{ book.URL }} target="_blank">{{ book.URL }}</a> </p>
+    <a style="background-color: skyblue" href="{% url 'checkin' book.id %}">Return Book</a>
+{% else %}
+    <a style="background-color: red;" href="{% url 'checkout' book.id %}">Check Out</a>
+{% endif %}
+
+{% endblock body_block %}

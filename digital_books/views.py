@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponseRedirect, reverse
 from digital_books.forms import BookForm
 from digital_books.models import Book
 from digital_books.helpers import scrap_html
+from custom_user.models import CustomUser
 
 
 # Create your views here.
@@ -22,13 +23,14 @@ def createBook(request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            Book.objects.create(
+            new_book = Book.objects.create(
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL']
             )
-            return HttpResponseRedirect(reverse('home'))
+            new_book.save()
+            return HttpResponseRedirect(reverse('all_books'))
 
     form = BookForm()
     return render(request, 'digital_books/book_form.html', {'form': form})
@@ -39,13 +41,14 @@ def createGutenberg(request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            Book.objects.create(
+            new_book = Book.objects.create(
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL']
             )
-            return HttpResponseRedirect(reverse('home'))
+            new_book.save()
+            return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
     new_title, new_author = scrap_html(projectg)
@@ -60,3 +63,35 @@ def createGutenberg(request):
         'form': form,
         'show_gutenberg': True
     })
+
+
+def detail_book(request, id):
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
+    checkout = False
+    if usr in book.checked_out.all():
+        checkout = True
+    return render(request, 'digital_books/book_detail.html', {
+        'book': book,
+        'checkout': checkout
+    })
+
+
+def checkout_book(request, id):
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
+    book.checked_out.add(usr)
+    try:
+        book.save()
+    except:
+        book.checked_out.remove(usr)
+        book.save()
+    return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
+
+def checkin_book(request, id):
+    book = Book.objects.get(id=id)
+    usr = CustomUser.objects.get(id=request.user.id)
+    book.checked_out.remove(usr)
+    book.save()
+    return HttpResponseRedirect(reverse('detail_book', args=(id, )))

@@ -6,11 +6,8 @@ from custom_user.forms import SignupForm, LoginForm
 from django.views.generic.base import View
 from digital_books.models import Book
 
+
 # Create your views here.
-
-
-def index(request):
-    return render(request, 'custom_user/index.html')
 
 
 def createUser(request):
@@ -94,6 +91,23 @@ def profile(request):
     """ For profile page - returns logged in user's profile data"""
     custom_user = CustomUser.objects.get(
         library_card_number=request.user.library_card_number)
-    return render(request, 'custom_user/profile.html', {'custom_user': custom_user})
+    books_queryset_out = Book.objects.filter(
+        checked_out__username__icontains=custom_user.username)
+    books_out = [book for book in books_queryset_out]
+    books_queryset_hold = Book.objects.filter(
+        holds__username__icontains=custom_user.username)
+    books_hold = [book for book in books_queryset_hold]
+    return render(request,
+                  'custom_user/profile.html',
+                  {'custom_user': custom_user,
+                   'books_out': books_out,
+                   'books_hold': books_hold})
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
+def logoutview(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('home'))
