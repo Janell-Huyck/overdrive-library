@@ -13,8 +13,15 @@
 {% if checkout %}
     <p>Read online now: <a href={{ book.URL }} target="_blank">{{ book.URL }}</a> </p>
     <a style="background-color: skyblue" href="{% url 'checkin' book.id %}">Return Book</a>
-{% else %}
+{% elif book.available == True%}
     <a style="background-color: red;" href="{% url 'checkout' book.id %}">Check Out</a>
+{% elif held == True%}
+<a style="background-color: red;" href="{% url 'remove_hold' book.id %}">Remove Hold</a>
+<br>
+You are hold number {{line_number}}
+{%else%}
+    <a style="background-color: red;" href="{% url 'hold' book.id %}">Place Hold</a>
+    <br>
+    There are currently {{book.holds.count}} holds on this item.
 {% endif %}
-
 {% endblock body_block %}
