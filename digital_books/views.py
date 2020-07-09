@@ -104,6 +104,10 @@ def checkin_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
     book.checked_out.remove(usr)
+    if book.holds.exists():
+        next_hold = book.holdorder_set.all()[0].user
+        book.holds.remove(next_hold)
+        book.checked_out.add(next_hold)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
@@ -118,7 +122,8 @@ def hold_book(request, id):
 
 def remove_hold_book(request, id):
     book = Book.objects.get(id=id) 
-    usr = CustomUser.objects.get(id=request.user.id)   
+    usr = CustomUser.objects.get(id=request.user.id) 
+    breakpoint()  
     book.holds.remove(usr)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
