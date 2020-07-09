@@ -4,6 +4,7 @@ from django.shortcuts import HttpResponseRedirect, reverse
 from custom_user.models import CustomUser
 from custom_user.forms import SignupForm, LoginForm
 from django.views.generic.base import View
+from digital_books.models import Book
 
 # Create your views here.
 
@@ -40,6 +41,16 @@ def createUser(request):
                     request.GET.get('next', reverse('home')))
     form = SignupForm()
     return render(request, 'custom_user/generic_form.html', {'form': form})
+
+def checkin(request, id):
+    book = Book.objects.get(id=id)
+    book.holds.remove(request.user)
+    return HttpResponseRedirect(
+                    request.GET.get('next', reverse('home')))
+                    
+def hold(request, id):
+    book = Book.objects.get(id=id)    
+    book.holds.add(request.user)
 
 
 class Login(View):
@@ -84,3 +95,5 @@ def profile(request):
     custom_user = CustomUser.objects.get(
         library_card_number=request.user.library_card_number)
     return render(request, 'custom_user/profile.html', {'custom_user': custom_user})
+
+
