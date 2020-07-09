@@ -24,8 +24,6 @@ class Book(models.Model):
         CustomUser, related_name='checked_out')
     holds = models.ManyToManyField(
         CustomUser, related_name='holds', blank=True, through='HoldOrder')
-    # can't see holds field in admin panel. still working on figuring out why
-    #   -Michael Gabbard
     URL = models.URLField(max_length=200)
 
     def __str__(self):
