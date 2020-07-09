@@ -23,13 +23,12 @@ def createBook(request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            new_book = Book.objects.create(
+            Book.objects.create(
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL']
             )
-            new_book.save()
             return HttpResponseRedirect(reverse('all_books'))
 
     form = BookForm()
@@ -41,13 +40,12 @@ def createGutenberg(request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            new_book = Book.objects.create(
+            Book.objects.create(
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL']
             )
-            new_book.save()
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
@@ -76,8 +74,6 @@ def detail_book(request, id):
     if held == True:
         qs = Book.objects.get(id=id).holdorder_set.all()
         for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
-            
-            line_number = 3
             if item.user == request.user:
                 line_number = index + 1
        
@@ -106,6 +102,10 @@ def checkin_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
     book.checked_out.remove(usr)
+    if book.holds.exists():
+        next_hold = book.holdorder_set.all()[0].user
+        book.holds.remove(next_hold)
+        book.checked_out.add(next_hold)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
@@ -120,7 +120,8 @@ def hold_book(request, id):
 
 def remove_hold_book(request, id):
     book = Book.objects.get(id=id) 
-    usr = CustomUser.objects.get(id=request.user.id)   
+    usr = CustomUser.objects.get(id=request.user.id) 
+    breakpoint()  
     book.holds.remove(usr)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))

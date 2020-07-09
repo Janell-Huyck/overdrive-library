@@ -16,8 +16,9 @@
 {% elif book.available == True%}
     <a style="background-color: red;" href="{% url 'checkout' book.id %}">Check Out</a>
 {% elif held == True%}
-    You have this book on hold. {{line_number}}
-    <a style="background-color: red;" href="{% url 'remove_hold' book.id %}">Remove Hold</a>
+<a style="background-color: red;" href="{% url 'remove_hold' book.id %}">Remove Hold</a>
+<br>
+You are hold number {{line_number}}
 {%else%}
     <a style="background-color: red;" href="{% url 'hold' book.id %}">Place Hold</a>
     <br>
