@@ -5,6 +5,7 @@ from custom_user.models import CustomUser
 from custom_user.forms import SignupForm, LoginForm
 from django.views.generic.base import View
 from digital_books.models import Book
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -77,6 +78,7 @@ class Login(View):
                                            })
 
 
+@login_required
 def profile(request):
     """ For profile page - returns logged in user's profile data"""
     custom_user = CustomUser.objects.get(
