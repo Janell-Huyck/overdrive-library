@@ -4,6 +4,7 @@ from digital_books.forms import BookForm
 from digital_books.models import Book
 from digital_books.helpers import scrap_html
 from custom_user.models import CustomUser
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -17,8 +18,10 @@ def search(request):
     # return render(request, 'digital_books/search.html', {'books': books})
     return render(request, 'digital_books/search.html')
 
-
+@login_required
 def createBook(request):
+    if request.user.is_librarian == False:
+        return HttpResponseRedirect(reverse('all_books'))
     if request.method == "POST":
         form = BookForm(request.POST)
         if form.is_valid():
@@ -34,7 +37,7 @@ def createBook(request):
     form = BookForm()
     return render(request, 'digital_books/book_form.html', {'form': form})
 
-
+@login_required
 def createGutenberg(request):
     if request.method == "POST":
         form = BookForm(request.POST)
@@ -84,7 +87,7 @@ def detail_book(request, id):
         'line_number': line_number
     })
 
-
+@login_required
 def checkout_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
@@ -96,7 +99,7 @@ def checkout_book(request, id):
         book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
-
+@login_required
 def checkin_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
@@ -108,7 +111,7 @@ def checkin_book(request, id):
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
-
+@login_required
 def hold_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
@@ -116,7 +119,7 @@ def hold_book(request, id):
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
-
+@login_required
 def remove_hold_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
