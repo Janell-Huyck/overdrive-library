@@ -19,6 +19,8 @@ def search(request):
 
 
 def createBook(request):
+    if request.user.is_librarian == False:
+        return HttpResponseRedirect(reverse('all_books'))
     if request.method == "POST":
         form = BookForm(request.POST)
         if form.is_valid():
