@@ -49,11 +49,13 @@ def createGutenberg(request):
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
-    new_title, new_author = scrap_html(projectg)
+    new_title, new_author, _, _, new_description = scrap_html(
+        projectg)
 
     form = BookForm(initial={
         'title': new_title,
         'author': new_author,
+        'description': new_description,
         'URL': projectg
     })
 
