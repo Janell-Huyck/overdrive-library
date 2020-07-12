@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect, reverse
 from digital_books.forms import BookForm
 from digital_books.models import Book
-from digital_books.helpers import scrap_html
+from digital_books.helpers import scrap_html, random_color
 from custom_user.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
@@ -10,7 +10,11 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     books = Book.objects.all()
-    return render(request, 'digital_books/index.html', {'books': books})
+    color = random_color
+    return render(request, 'digital_books/index.html', {
+        'books': books,
+        'color': color
+    })
 
 
 @login_required

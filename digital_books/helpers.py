@@ -1,6 +1,7 @@
 import re
 from bs4 import BeautifulSoup
 import requests
+import random
 
 
 def scrap_html(url):
@@ -18,3 +19,9 @@ def scrap_html(url):
             'Sorry, but the page or book you tried to access is unavailable.')
     else:
         return (title.group(1), author.group(1), release_date.group(1), language.group(1), description.group(1))
+
+
+def random_color():
+    colors = ['#FF0000', '#8b0000', '##FFA500', '#ffffbf', '#fcbe11', '#008000',
+              '#0000FF', '#00008B', '#966fd6', '#301934', '#808080', '#FFC0CB', '#000000']
+    return random.choice(colors)

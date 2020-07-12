@@ -5,7 +5,8 @@
 <div class="row row-cols-3">
     {% for book in books %}
     <div class="p-2">
-        <a href='{{book.id}}' class="bg_book col card text-center shadow-sm">
+        <a href='{{book.id}}' class="bg_book col card text-center shadow-sm"
+            style="border: 0.5rem solid {{color}}; border-left: none; border-right: none;">
             <h5 class="text-truncate">{{ book.title }}</h5>
             <h6 class="card-subtitle mb-2 text-muted text-truncate">By {{ book.author }}</h6>
         </a>
