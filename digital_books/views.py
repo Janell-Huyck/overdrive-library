@@ -68,6 +68,13 @@ def createGutenberg(request):
     })
 
 
+def delete_book(request, id):
+    if request.user.is_superuser:
+        book = Book.objects.get(id=id)
+        book.delete()
+        return HttpResponseRedirect(reverse('all_books'))
+
+
 def detail_book(request, id):
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
