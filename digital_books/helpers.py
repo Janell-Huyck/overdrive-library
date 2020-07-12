@@ -11,7 +11,7 @@ def scrap_html(url):
     release_date = re.search(r'[rR]elease [dD]ate: ([ \S]+)', soup)
     language = re.search(r'[lL]anguage: ([ \S]+)', soup)
     description = re.search(
-        r"(\b(The )?Project Gutenberg('s| EBook)[\w\W]*(gutenberg.org(\/license)?|gutenberg.net|before using this ebook.))[\w\W\n]*Title:", soup)
+        r"(\b(The )?Project Gutenberg('s| [eE][bB]ook)[\w\W]*(gutenberg.org(\/license)?|gutenberg.net|before using this ebook.))[\w\W\n]*Title:", soup)
 
     if not title or not author or not release_date or not language or not description:
         raise ValueError(
