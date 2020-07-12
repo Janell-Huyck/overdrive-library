@@ -64,7 +64,7 @@ class Login(View):
 
             if current_user:
                 login(request, current_user)
-                return HttpResponseRedirect(reverse("home"))
+                return HttpResponseRedirect(request.GET.get('next', reverse('home')))
             else:
                 render(request, self.html,
                        {"form": form,
