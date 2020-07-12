@@ -3,10 +3,12 @@
 {% block body_block %}
 <h1>About This Book</h1>
 
-<h3>{{ book.title }}</h3>
-{% if user.is_superuser and user.is_authenticated %}
-    <a href="{% url 'delete_book' book.id %}">Delete book</a>
-{% endif %}
+<div class="d-flex">
+    <h3 class="flex-grow-1">{{ book.title }}</h3>
+    {% if user.is_superuser and user.is_authenticated %}
+    {% include '../digital_books/book_delete.html' with id=book.id %}
+    {% endif %}
+</div>
 <p>{{ book.author }}</p>
 <p>{{ book.description }}</p>
 
