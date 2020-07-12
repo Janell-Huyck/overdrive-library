@@ -18,7 +18,7 @@ Who has it checked out -one to many field
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=50)
-    description = models.TextField(max_length=500)
+    description = models.TextField()
     limit = models.IntegerField(default=3)
     checked_out = models.ManyToManyField(
         CustomUser, related_name='checked_out')

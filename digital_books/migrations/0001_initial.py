@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
                 ('author', models.CharField(max_length=50)),
-                ('description', models.TextField(max_length=500)),
+                ('description', models.TextField()),
                 ('limit', models.IntegerField(default=3)),
                 ('URL', models.URLField()),
                 ('checked_out', models.ManyToManyField(related_name='checked_out', to=settings.AUTH_USER_MODEL)),

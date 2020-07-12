@@ -5,7 +5,7 @@
 
 <h3>{{ book.title }}</h3>
 {% if user.is_superuser and user.is_authenticated %}
-    <a href="{% url 'delete_book' book.id %}">Delete book</>
+    <a href="{% url 'delete_book' book.id %}">Delete book</a>
 {% endif %}
 <p>{{ book.author }}</p>
 <p>{{ book.description }}</p>
