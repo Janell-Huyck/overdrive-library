@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponseRedirect, reverse
+from django.contrib.auth.decorators import login_required
+from django.views.generic import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from digital_books.forms import BookForm
 from digital_books.models import Book
 from digital_books.helpers import scrap_html, random_color
 from custom_user.models import CustomUser
-from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -17,11 +20,14 @@ def index(request):
     })
 
 
-@login_required
-def createBook(request):
-    if request.user.is_librarian == False:
-        return HttpResponseRedirect(reverse('all_books'))
-    if request.method == "POST":
+class CreateBook(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_librarian == False:
+            return HttpResponseRedirect(reverse('all_books'))
+        form = BookForm()
+        return render(request, 'digital_books/book_form.html', {'form': form})
+
+    def post(self, request):
         form = BookForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -32,9 +38,6 @@ def createBook(request):
                 URL=data['URL']
             )
             return HttpResponseRedirect(reverse('all_books'))
-
-    form = BookForm()
-    return render(request, 'digital_books/book_form.html', {'form': form})
 
 
 @login_required
@@ -68,6 +71,7 @@ def createGutenberg(request):
     })
 
 
+@login_required
 def delete_book(request, id):
     if request.user.is_superuser:
         book = Book.objects.get(id=id)
@@ -75,26 +79,27 @@ def delete_book(request, id):
         return HttpResponseRedirect(reverse('all_books'))
 
 
-def detail_book(request, id):
-    book = Book.objects.get(id=id)
-    usr = CustomUser.objects.get(id=request.user.id)
-    checkout = False
-    if usr in book.checked_out.all():
-        checkout = True
-    held = book.holds.filter(id=request.user.id).exists()
-    line_number = 23
-    if held == True:
-        qs = Book.objects.get(id=id).holdorder_set.all()
-        for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
-            if item.user == request.user:
-                line_number = index + 1
+class DetailBook(View):
+    def get(self, request, id):
+        book = Book.objects.get(id=id)
+        usr = CustomUser.objects.get(id=request.user.id)
+        checkout = False
+        if usr in book.checked_out.all():
+            checkout = True
+        held = book.holds.filter(id=request.user.id).exists()
+        line_number = 23
+        if held == True:
+            qs = Book.objects.get(id=id).holdorder_set.all()
+            for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
+                if item.user == request.user:
+                    line_number = index + 1
 
-    return render(request, 'digital_books/book_detail.html', {
-        'book': book,
-        'checkout': checkout,
-        'held': held,
-        'line_number': line_number
-    })
+        return render(request, 'digital_books/book_detail.html', {
+            'book': book,
+            'checkout': checkout,
+            'held': held,
+            'line_number': line_number
+        })
 
 
 @login_required
