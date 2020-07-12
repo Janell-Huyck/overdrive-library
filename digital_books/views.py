@@ -13,11 +13,6 @@ def index(request):
     return render(request, 'digital_books/index.html', {'books': books})
 
 
-def search(request):
-    # books = BookModel.objects.all().order_by('title')
-    # return render(request, 'digital_books/search.html', {'books': books})
-    return render(request, 'digital_books/search.html')
-
 @login_required
 def createBook(request):
     if request.user.is_librarian == False:
@@ -36,6 +31,7 @@ def createBook(request):
 
     form = BookForm()
     return render(request, 'digital_books/book_form.html', {'form': form})
+
 
 @login_required
 def createGutenberg(request):
@@ -89,6 +85,7 @@ def detail_book(request, id):
         'line_number': line_number
     })
 
+
 @login_required
 def checkout_book(request, id):
     book = Book.objects.get(id=id)
@@ -100,6 +97,7 @@ def checkout_book(request, id):
         book.checked_out.remove(usr)
         book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
 
 @login_required
 def checkin_book(request, id):
@@ -113,6 +111,7 @@ def checkin_book(request, id):
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
+
 @login_required
 def hold_book(request, id):
     book = Book.objects.get(id=id)
@@ -120,6 +119,7 @@ def hold_book(request, id):
     book.holds.add(usr)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
 
 @login_required
 def remove_hold_book(request, id):
