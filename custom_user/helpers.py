@@ -11,8 +11,8 @@ def makenumber():
 
     # all_users = CustomUser.objects.all()
     # all_numbers = [custom_user.card_number for custom_user in all_users]
-
-    new_number = "".join([str(randint(0, 10)) for i in range(10)])
+    new_number = str(randint(1, 9))
+    new_number += "".join([str(randint(0, 9)) for i in range(9)])
 
     print("new number is:", new_number)
     return new_number
