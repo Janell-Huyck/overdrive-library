@@ -39,7 +39,6 @@ def createUser(request):
 
 
 class Login(View):
-    # html = 'custom_user/generic_form.html'
     html = 'custom_user/login_form.html'
 
     def get(self, request):
@@ -48,39 +47,45 @@ class Login(View):
                       {"form": form})
 
     def post(self, request):
+        username = ""
         form = LoginForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
 
-            if data['library_card_number']:
-                username = CustomUser.objects.filter(
-                    library_card_number=data[
-                        'library_card_number'])[0].username
-            else:
-                username = data['username']
-            current_user = authenticate(
-                username=username,
-                password=data['password']
-            )
+            try:
+                username = CustomUser.objects.get(
+                    library_card_number=int(data['identification'])).username
+            except Exception:
+                try:
+                    username = CustomUser.objects.get(
+                        email=data['identification']
+                    ).username
+                except Exception:
+                    username = data['identification']
+            finally:
+                current_user = authenticate(
+                    username=username,
+                    password=data['password']
+                )
 
             if current_user:
                 login(request, current_user)
                 return HttpResponseRedirect(
                     request.GET.get('next', reverse('home')))
             else:
+                print(username)
                 render(request, self.html,
                        {"form": form,
-                        "message_before": """Credentials do not match.
-                        Please check your card number and password and
-                        try again."""})
+                           "message_before": """Unable to authorize.
+                                    Please check your information and
+                                    try again."""})
         return render(request, self.html, {"form": form,
                                            "message_before": """Unable to authorize.
-                                        Please verify your username, library card
-                                        number and/or password and try again."""
-                                           })
+                                    Please check your information and
+                                    try again."""})
 
 
-@login_required
+@ login_required
 def profile(request):
     """ For profile page - returns logged in user's profile data"""
     custom_user = CustomUser.objects.get(

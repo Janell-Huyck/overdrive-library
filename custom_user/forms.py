@@ -13,7 +13,7 @@ class SignupForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-
-    username = forms.CharField(max_length=60, required=False)
-    library_card_number = forms.IntegerField(required=False)
+    identification = forms.CharField(max_length=50)
+    # username = forms.CharField(max_length=60, required=False)
+    # library_card_number = forms.IntegerField(required=False)
     password = forms.CharField(widget=forms.PasswordInput)

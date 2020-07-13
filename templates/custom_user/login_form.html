@@ -9,13 +9,11 @@
     {% csrf_token %}
     <div class="userDetails">
         <hr/>
-        <h3>Please enter in either your username or library card number below</h3>
-        {{ form.username }}
-        <br/><br/>
-        <p>or</p>
-        {{form.library_card_number}}
+        <h3>Enter your username, email address, or library card number</h3>
+        {{ form.identification }}
+        
         <hr/>
-        <h3>Please enter your password below</h3>
+        <h3>Please enter your password</h3>
         {{ form.password }}
         <br/><hr/><br/>
         <input class="btn btn-primary btn-lg" type="submit" value="Submit">
