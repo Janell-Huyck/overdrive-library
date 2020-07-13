@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends '../base.html' %}
+
+{% block body_block %}
+
+<br>
+{{ message_before }}
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="userDetails">
+        <hr/>
+        <h3>Enter your username, email address, or library card number</h3>
+        {{ form.identification }}
+        
+        <hr/>
+        <h3>Please enter your password</h3>
+        {{ form.password }}
+        <br/><hr/><br/>
+        <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+    </div>
+    {{ message_after }}
+</form>
+{% endblock body_block %}
