@@ -7,9 +7,6 @@ from django.views.generic.base import View
 from digital_books.models import Book
 
 
-# Create your views here.
-
-
 def createUser(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -53,11 +50,17 @@ class Login(View):
         if form.is_valid():
             data = form.cleaned_data
 
+            if data['library_card_number']:
+                username = CustomUser.objects.filter(
+                    library_card_number=data[
+                        'library_card_number'])[0].username
+            else:
+                username = CustomUser.objects.filter(
+                    username=data['username']
+                )
             current_user = authenticate(
                 request,
-                username=CustomUser.objects.filter(
-                    library_card_number=data[
-                        'library_card_number'])[0].username,
+                username=username,
                 password=data['password']
             )
 
