@@ -22,7 +22,7 @@ def index(request):
 
 class CreateBook(LoginRequiredMixin, View):
     def get(self, request):
-        if request.user.is_librarian == False:
+        if request.user.is_librarian is False:
             return HttpResponseRedirect(reverse('all_books'))
         form = BookForm()
         return render(request, 'digital_books/book_form.html', {'form': form})
@@ -88,7 +88,7 @@ class DetailBook(View):
             checkout = True
         held = book.holds.filter(id=request.user.id).exists()
         line_number = 23
-        if held == True:
+        if held is True:
             qs = Book.objects.get(id=id).holdorder_set.all()
             for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
                 if item.user == request.user:

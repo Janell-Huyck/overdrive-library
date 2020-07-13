@@ -39,7 +39,8 @@ def createUser(request):
 
 
 class Login(View):
-    html = 'custom_user/generic_form.html'
+    # html = 'custom_user/generic_form.html'
+    html = 'custom_user/login_form.html'
 
     def get(self, request):
         form = LoginForm()
@@ -56,18 +57,16 @@ class Login(View):
                     library_card_number=data[
                         'library_card_number'])[0].username
             else:
-                username = CustomUser.objects.filter(
-                    username=data['username']
-                )
+                username = data['username']
             current_user = authenticate(
-                request,
                 username=username,
                 password=data['password']
             )
 
             if current_user:
                 login(request, current_user)
-                return HttpResponseRedirect(request.GET.get('next', reverse('home')))
+                return HttpResponseRedirect(
+                    request.GET.get('next', reverse('home')))
             else:
                 render(request, self.html,
                        {"form": form,
@@ -76,8 +75,8 @@ class Login(View):
                         try again."""})
         return render(request, self.html, {"form": form,
                                            "message_before": """Unable to authorize.
-                                           Please verify your library card number 
-                                           and password and try again."""
+                                        Please verify your username, library card
+                                        number and/or password and try again."""
                                            })
 
 

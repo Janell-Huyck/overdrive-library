@@ -5,7 +5,8 @@ from .helpers import makenumber
 
 
 class CustomUser(AbstractUser):
-    library_card_number = models.PositiveIntegerField(null=True, blank=True)
+    library_card_number = models.PositiveIntegerField(
+        null=True, blank=True,)
     email = models.EmailField(max_length=254)
     signup_date = models.DateField(auto_now_add=True, null=True, blank=True)
     is_librarian = models.BooleanField(default=False)
