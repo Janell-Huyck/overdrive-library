@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from custom_user import views as CUviews
+from digital_books.views import error404, error500
 
 
 urlpatterns = [
@@ -25,6 +26,8 @@ urlpatterns = [
     path('create_user/', CUviews.createUser, name='create_user'),
     path('login/', CUviews.Login.as_view(), name='login'),
     path('logoutview/', CUviews.logoutview, name='logoutview'),
-    path('', CUviews.index, name='home')
-
+    path('', CUviews.index, name='home'),
 ]
+
+handler404= error404
+handler500= error500

@@ -144,3 +144,10 @@ def remove_hold_book(request, id):
     book.holds.remove(usr)
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
+    
+def error404(request, exception):
+    return render(request, '404.html', status=404)
+
+def error500(request):
+    return render(request, '500.html', status=500)
