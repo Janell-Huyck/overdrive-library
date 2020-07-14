@@ -29,5 +29,5 @@ urlpatterns = [
     path('', CUviews.index, name='home'),
 ]
 
-handler404 = error404
-handler500 = error500
+# handler404 = error404
+# handler500 = error500
