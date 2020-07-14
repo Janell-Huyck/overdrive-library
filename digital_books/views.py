@@ -114,17 +114,21 @@ def update_book(request, id):
 class DetailBook(View):
     def get(self, request, id):
         book = Book.objects.get(id=id)
-        usr = CustomUser.objects.get(id=request.user.id)
-        checkout = False
-        if usr in book.checked_out.all():
-            checkout = True
-        held = book.holds.filter(id=request.user.id).exists()
-        line_number = 23
-        if held is True:
-            qs = Book.objects.get(id=id).holdorder_set.all()
-            for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
-                if item.user == request.user:
-                    line_number = index + 1
+
+        if request.user.is_authenticated:
+            usr = CustomUser.objects.get(id=request.user.id)
+            checkout = False
+            if usr in book.checked_out.all():
+                checkout = True
+            held = book.holds.filter(id=request.user.id).exists()
+            line_number = 23
+            if held is True:
+                qs = Book.objects.get(id=id).holdorder_set.all()
+                for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
+                    if item.user == request.user:
+                        line_number = index + 1
+        else:
+            return render(request, 'digital_books/book_detail.html', {'book': book})
 
         return render(request, 'digital_books/book_detail.html', {
             'book': book,
@@ -177,9 +181,10 @@ def remove_hold_book(request, id):
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
-    
+
 def error404(request, exception):
     return render(request, '404.html', status=404)
+
 
 def error500(request):
     return render(request, '500.html', status=500)
