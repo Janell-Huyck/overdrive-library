@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends '../base.html' %}
+
+{% block body_block %}
+<form method="post">
+    {% csrf_token %}
+    <br/>
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+{% if not show_gutenberg %}
+
+<br>
+<p>--OR--</p>
+<br>
+<form action="gutenberg/" method="POST">
+    {% csrf_token %}
+    <input type="url" name="projectg">
+    <input type="submit" value="Add Gutenberg eBook">
+</form>
+{% endif %}
+{% endblock body_block %}

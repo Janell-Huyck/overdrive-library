@@ -14,8 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from custom_user import views as CUviews
+from digital_books.views import error404, error500
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
+    path('digital_books/', include('digital_books.urls')),
+    path('profile/', CUviews.profile, name='profile'),
+    path('create_user/', CUviews.createUser, name='create_user'),
+    path('login/', CUviews.Login.as_view(), name='login'),
+    path('logoutview/', CUviews.logoutview, name='logoutview'),
+    path('', CUviews.index, name='home'),
 ]
+
+# handler404 = error404
+# handler500 = error500
