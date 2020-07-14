@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('library_card_number', models.PositiveIntegerField(blank=True, null=True)),
-                ('email', models.EmailField(max_length=254)),
+                ('email', models.EmailField(max_length=254, unique=True)),
                 ('signup_date', models.DateField(auto_now_add=True, null=True)),
                 ('is_librarian', models.BooleanField(default=False)),
                 ('display_name', models.CharField(max_length=50)),
