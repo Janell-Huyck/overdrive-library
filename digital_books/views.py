@@ -35,7 +35,8 @@ class CreateBook(LoginRequiredMixin, View):
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
-                URL=data['URL']
+                URL=data['URL'],
+                language=data['language'].title()
             )
             return HttpResponseRedirect(reverse('all_books'))
 
@@ -50,19 +51,21 @@ def createGutenberg(request):
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
-                URL=data['URL']
+                URL=data['URL'],
+                language=data['language'].title()
             )
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
-    new_title, new_author, _, _, new_description = scrap_html(
+    new_title, new_author, _, new_language, new_description = scrap_html(
         projectg)
 
     form = BookForm(initial={
         'title': new_title,
         'author': new_author,
         'description': new_description,
-        'URL': projectg
+        'URL': projectg,
+        'language': new_language
     })
 
     return render(request, 'digital_books/book_form.html', {
