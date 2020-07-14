@@ -22,7 +22,7 @@ def index(request):
 
 class CreateBook(LoginRequiredMixin, View):
     def get(self, request):
-        if request.user.is_librarian == False:
+        if request.user.is_librarian is False:
             return HttpResponseRedirect(reverse('all_books'))
         form = BookForm()
         return render(request, 'digital_books/book_form.html', {'form': form})
@@ -35,7 +35,8 @@ class CreateBook(LoginRequiredMixin, View):
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
-                URL=data['URL']
+                URL=data['URL'],
+                language=data['language'].title()
             )
             return HttpResponseRedirect(reverse('all_books'))
 
@@ -50,19 +51,21 @@ def createGutenberg(request):
                 title=data['title'],
                 author=data['author'],
                 description=data['description'],
-                URL=data['URL']
+                URL=data['URL'],
+                language=data['language'].title()
             )
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
-    new_title, new_author, _, _, new_description = scrap_html(
+    new_title, new_author, _, new_language, new_description = scrap_html(
         projectg)
 
     form = BookForm(initial={
         'title': new_title,
         'author': new_author,
         'description': new_description,
-        'URL': projectg
+        'URL': projectg,
+        'language': new_language
     })
 
     return render(request, 'digital_books/book_form.html', {
@@ -79,6 +82,35 @@ def delete_book(request, id):
         return HttpResponseRedirect(reverse('all_books'))
 
 
+@login_required
+def update_book(request, id):
+    if request.user.is_superuser:
+        book = Book.objects.get(id=id)
+        if request.method == "POST":
+            form = BookForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                book.title = data['title']
+                book.author = data['author']
+                book.description = data['description']
+                book.URL = data['URL']
+                book.language = data['language'].title()
+                book.save()
+                return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
+        form = BookForm(initial={
+            'title': book.title,
+            'author': book.author,
+            'description': book.description,
+            'URL': book.URL,
+            'language': book.language
+        })
+        return render(request, 'digital_books/book_form.html', {
+            'form': form,
+            'show_gutenberg': True
+        })
+
+
 class DetailBook(View):
     def get(self, request, id):
         book = Book.objects.get(id=id)
@@ -88,7 +120,7 @@ class DetailBook(View):
             checkout = True
         held = book.holds.filter(id=request.user.id).exists()
         line_number = 23
-        if held == True:
+        if held is True:
             qs = Book.objects.get(id=id).holdorder_set.all()
             for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
                 if item.user == request.user:

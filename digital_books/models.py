@@ -25,6 +25,7 @@ class Book(models.Model):
     holds = models.ManyToManyField(
         CustomUser, related_name='holds', blank=True, through='HoldOrder')
     URL = models.URLField(max_length=200)
+    language = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title

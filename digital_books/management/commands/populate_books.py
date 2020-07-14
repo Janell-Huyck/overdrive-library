@@ -21,11 +21,11 @@ class Command(BaseCommand):
             url = "http://www.gutenberg.org/files/{}/{}-h/{}-h.htm".format(
                 random_num, random_num, random_num)
             try:
-                title, author, _, _, description = scrap_html(url)
+                title, author, _, language, description = scrap_html(url)
             except:
                 pass
             book = Book.objects.create(
-                title=title, author=author, description=description, URL=url)
+                title=title, author=author, description=description, URL=url, language=language)
             book.save()
             del book
             n -= 1
