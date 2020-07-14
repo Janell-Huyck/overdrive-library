@@ -82,6 +82,35 @@ def delete_book(request, id):
         return HttpResponseRedirect(reverse('all_books'))
 
 
+@login_required
+def update_book(request, id):
+    if request.user.is_superuser:
+        book = Book.objects.get(id=id)
+        if request.method == "POST":
+            form = BookForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                book.title = data['title']
+                book.author = data['author']
+                book.description = data['description']
+                book.URL = data['URL']
+                book.language = data['language'].title()
+                book.save()
+                return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
+        form = BookForm(initial={
+            'title': book.title,
+            'author': book.author,
+            'description': book.description,
+            'URL': book.URL,
+            'language': book.language
+        })
+        return render(request, 'digital_books/book_form.html', {
+            'form': form,
+            'show_gutenberg': True
+        })
+
+
 class DetailBook(View):
     def get(self, request, id):
         book = Book.objects.get(id=id)
