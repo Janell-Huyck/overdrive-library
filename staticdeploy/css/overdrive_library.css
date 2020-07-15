@@ -85,3 +85,22 @@ body h1 {
   border: 0.5rem solid brown;
   filter: brightness(1.15);
 }
+
+.bg_book:hover {
+  transform: translateY(-5px);
+}
+
+.checkout_books {
+  width: 12rem;
+  height: 4rem;
+  background-color: greenyellow;
+  color: black;
+  text-align: center;
+  transform: rotate(-60deg);
+  border-radius: 0.5rem;
+  margin: 4rem -3rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  overflow: hidden;
+}
