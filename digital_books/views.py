@@ -161,7 +161,7 @@ def checkin_book(request, id):
         book.holds.remove(next_hold)
         book.checked_out.add(next_hold)
     book.save()
-    return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+    return HttpResponseRedirect(request.GET.get('next', reverse('detail_book', args=(id,))))
 
 
 @login_required

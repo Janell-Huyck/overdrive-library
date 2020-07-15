@@ -11,40 +11,7 @@
         <p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
     </div>
     <div class='col-8'>
-        <nav>
-            <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="checkout-tab" data-toggle="tab" href="#checkout" role="presentation" 
-                    aria-controls="checkout" aria-selected="true">Checked out</a>
-                <a class="nav-item nav-link" id="onhold-tab" data-toggle="tab" href="#onhold" role="presentation" 
-                    aria-controls="onhold" aria-selected="false">On hold</a>
-            </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="checkout" role="tabpanel" aria-labelledby="checkout-tab">
-                <h4>Books you have checked out:<h4>
-                {% for book in books_out %}
-                    <hr/>
-                    <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
-                    <a class="btn btn-secondary btn-sm" href={{book.URL}} target="_blank">Read Now</a>
-                    <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/checkin'>Return Book</a><br/>
-                    {% empty %}
-                    <hr/>
-                    <p> No books currently checked out </p>
-                {% endfor %}
-            </div>
-            <div class="tab-pane fade" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
-                <h4>Books you have on hold</h4>
-                {% for book in books_hold %}
-                    <hr/>
-                    <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
-                    <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/remove_hold'>Remove Hold</a><br/>
-            
-                    {% empty %}
-                    <hr/>
-                    <p> No books currently on hold </p>
-                {% endfor %}
-            </div>
-        </div>
+        {% include '../custom_user/profile_books.html' with book=book books_checkedout=books_out books_onhold=books_hold %}
     </div>
 </div>
 
