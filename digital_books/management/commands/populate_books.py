@@ -5,6 +5,12 @@ import random
 
 
 class Command(BaseCommand):
+    """Allows for easy set-up of a library.  Typing
+    'python manage.py populate_books <int>'
+    will populate the library with at least that many
+    books from project gutenberg.  Can be run when the library
+    already has books in it."""
+
     help = 'Populate a desired number of random eBooks from Project Gutenberg'
 
     def add_arguments(self, parser):

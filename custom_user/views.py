@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def createUser(request):
+    """Allows new users to create an account, and after successful
+    account creation logs them in."""
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
