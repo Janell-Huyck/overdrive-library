@@ -20,7 +20,6 @@ def createUser(request):
                 password=data['password'],
                 display_name=data['display_name'],
                 email=data['email'],
-                is_librarian=data['is_librarian']
             )
             custom_user.set_password(raw_password=data['password'])
             custom_user.save()
