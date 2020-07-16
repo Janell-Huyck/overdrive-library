@@ -27,7 +27,38 @@ def scrap_html(url):
         raise ValueError(
             'Sorry, but the page or book you tried to access is unavailable.')
     else:
-        return (title.group(1), author.group(1), release_date.group(1), language.group(1), description.group(1) if description else new_description)
+        author_first, author_last = split_author(author.group(1))
+        return (title.group(1),
+                author_first,
+                author_last,
+                # author.group(1),
+                release_date.group(1),
+                language.group(1),
+                description.group(1) if description else new_description)
+
+
+def split_author(author_name):
+    if ',' in author_name:
+        author_name_list = author_name.split(",")[0]
+        author_name_list = author_name_list.split(" ")
+    else:
+        author_name_list = author_name.split(" ")
+
+    if len(author_name_list) == 1:
+        author_first = " "
+        author_last = author_name_list[0]
+
+    if author_name_list[-2] in ['de', 'De', 'van', 'Van']:
+        if len(author_name_list) > 2:
+            author_last = (" ").join(author_name_list[-2:])
+            author_first = (" ").join(author_name_list[1:-2])
+        else:
+            author_last = (" ").join(author_name_list[-2:])
+            author_first = " "
+    else:
+        author_first = (" ").join(author_name_list[:-1])
+        author_last = author_name_list[-1]
+    return author_first, author_last
 
 
 def random_color():
@@ -41,4 +72,4 @@ def get_sort_title(title):
     title = list(title.split(" "))
     if title[0] in small_words:
         title = title[1:]
-    return " ".join(title)
+    return (" ").join(title)
