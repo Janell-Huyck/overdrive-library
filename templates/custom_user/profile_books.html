@@ -1,0 +1,47 @@
+<nav>
+    <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="checkout-tab" data-toggle="tab" href="#checkout" role="presentation" 
+            aria-controls="checkout" aria-selected="true">Checked out</a>
+        <a class="nav-item nav-link" id="onhold-tab" data-toggle="tab" href="#onhold" role="presentation" 
+            aria-controls="onhold" aria-selected="false">On hold</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="checkout" role="tabpanel" aria-labelledby="checkout-tab">
+        <h4>Books you have checked out:</h4>
+        <br>
+        <div style="display: flex; flex-wrap: wrap;">
+            {% for book in books_checkedout %}
+                <div class="checkout_books text-wrap" 
+                     tabindex="0" 
+                     data-html='true' 
+                     data-toggle="popover" 
+                     data-placement="top" 
+                     data-trigger="focus" 
+                     data-content='<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
+                                        <a class="btn btn-outline-info" href="../digital_books/{{book.id}}">View</a>
+                                        <a class="btn btn-outline-info" href="{{book.URL}}" target="_blank">Read now</a>
+                                        <a class="btn btn-outline-info" href="../digital_books/{{book.id}}/checkin?next=/profile">Return book</a>
+                                   </div>'
+                >
+                    <p class="text-wrap">{{book.title}}</p>
+                </div>
+                {% empty %}
+                <hr/>
+                <p> No books currently checked out </p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
+        <h4>Books you have on hold:</h4>
+        <br>
+        {% for book in books_onhold %}
+            <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
+            <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/remove_hold'>Remove Hold</a>
+    
+            {% empty %}
+            <p> No books currently on hold </p>
+            <hr/>
+        {% endfor %}
+    </div>
+</div>

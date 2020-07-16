@@ -6,13 +6,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from digital_books.forms import BookForm
 from digital_books.models import Book
-from digital_books.helpers import scrap_html, random_color
+from digital_books.helpers import scrap_html, random_color, get_sort_title
 from custom_user.models import CustomUser
 
 
 # Create your views here.
 def index(request):
-    books = Book.objects.all()
+    sort_by = request.GET.get('sort', 'id')
+    books = Book.objects.all().order_by(sort_by, 'sort_title')
     color = random_color
     return render(request, 'digital_books/index.html', {
         'books': books,
@@ -36,7 +37,8 @@ class CreateBook(LoginRequiredMixin, View):
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL'],
-                language=data['language'].title()
+                language=data['language'].title(),
+                sort_title=get_sort_title(data['title'])
             )
             return HttpResponseRedirect(reverse('all_books'))
 
@@ -52,7 +54,8 @@ def createGutenberg(request):
                 author=data['author'],
                 description=data['description'],
                 URL=data['URL'],
-                language=data['language'].title()
+                language=data['language'].title(),
+                sort_title=get_sort_title(data['title'])
             )
             return HttpResponseRedirect(reverse('all_books'))
 
@@ -65,7 +68,7 @@ def createGutenberg(request):
         'author': new_author,
         'description': new_description,
         'URL': projectg,
-        'language': new_language
+        'language': new_language,
     })
 
     return render(request, 'digital_books/book_form.html', {
@@ -95,6 +98,7 @@ def update_book(request, id):
                 book.description = data['description']
                 book.URL = data['URL']
                 book.language = data['language'].title()
+                book.sort_title = data['sort_title']
                 book.save()
                 return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
@@ -103,7 +107,8 @@ def update_book(request, id):
             'author': book.author,
             'description': book.description,
             'URL': book.URL,
-            'language': book.language
+            'language': book.language,
+            'sort_title': book.sort_title
         })
         return render(request, 'digital_books/book_form.html', {
             'form': form,
@@ -114,17 +119,21 @@ def update_book(request, id):
 class DetailBook(View):
     def get(self, request, id):
         book = Book.objects.get(id=id)
-        usr = CustomUser.objects.get(id=request.user.id)
-        checkout = False
-        if usr in book.checked_out.all():
-            checkout = True
-        held = book.holds.filter(id=request.user.id).exists()
-        line_number = 23
-        if held is True:
-            qs = Book.objects.get(id=id).holdorder_set.all()
-            for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
-                if item.user == request.user:
-                    line_number = index + 1
+
+        if request.user.is_authenticated:
+            usr = CustomUser.objects.get(id=request.user.id)
+            checkout = False
+            if usr in book.checked_out.all():
+                checkout = True
+            held = book.holds.filter(id=request.user.id).exists()
+            line_number = 23
+            if held is True:
+                qs = Book.objects.get(id=id).holdorder_set.all()
+                for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
+                    if item.user == request.user:
+                        line_number = index + 1
+        else:
+            return render(request, 'digital_books/book_detail.html', {'book': book})
 
         return render(request, 'digital_books/book_detail.html', {
             'book': book,
@@ -157,7 +166,7 @@ def checkin_book(request, id):
         book.holds.remove(next_hold)
         book.checked_out.add(next_hold)
     book.save()
-    return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+    return HttpResponseRedirect(request.GET.get('next', reverse('detail_book', args=(id,))))
 
 
 @login_required
@@ -177,9 +186,10 @@ def remove_hold_book(request, id):
     book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
 
-    
+
 def error404(request, exception):
     return render(request, '404.html', status=404)
+
 
 def error500(request):
     return render(request, '500.html', status=500)

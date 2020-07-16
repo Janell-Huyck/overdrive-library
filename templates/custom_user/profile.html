@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 {% extends '../base.html' %}
 {% block body_block %}
-<h1>My Profile</h1>
 
-<h4>Library Card Number: {{custom_user.library_card_number}}</h4>
-<p>Display name: {{custom_user.display_name}}</p>
-<p>Email: {{custom_user.email}}</p>
-<p>Date joined: {{custom_user.signup_date}}</p>
-<p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
-<br/>
-<h4>Books you have checked out:<h4>
-{% for book in books_out %}
-        <hr/>
-        <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
-        <a class="btn btn-secondary btn-sm" href={{book.URL}} target="_blank">Read Now</a>
-        <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/checkin'>Return Book</a><br/>
-    {% empty %}
-        <hr/>
-        <p> No books currently checked out </p>
-{% endfor %}
-<hr/><hr/>
-<h4>Books you have on hold</h4>
-{% for book in books_hold %}
-        <hr/>
-        <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
-        <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/remove_hold'>Remove Hold</a><br/>
+<div class="row m-3">
+    <div class='col-4'>
+        <h4>Library Card Number: {{custom_user.library_card_number}}</h4>
+        <p>Display name: {{custom_user.display_name}}</p>
+        <p>Email: {{custom_user.email}}</p>
+        <p>Date joined: {{custom_user.signup_date}}</p>
+        <p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
+    </div>
+    <div class='col-8'>
+        {% include '../custom_user/profile_books.html' with book=book books_checkedout=books_out books_onhold=books_hold %}
+    </div>
+</div>
 
-    {% empty %}
-        <hr/>
-        <p> No books currently on hold </p>
-{% endfor %}
 {% endblock body_block %}
