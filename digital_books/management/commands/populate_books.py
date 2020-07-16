@@ -39,7 +39,8 @@ class Command(BaseCommand):
                     sort_title=get_sort_title(title))
                 book.save()
                 del book
-            except:
+                self.stdout.write(self.style.SUCCESS(
+                    'Successfully eBook added eBook["%s"].' % random_num))
                 n -= 1
-            self.stdout.write(self.style.SUCCESS(
-                'Successfully eBook added eBook["%s"].' % random_num))
+            except:
+                pass

@@ -57,7 +57,6 @@ body h1 {
   color: black;
 }
 
-
 /* The "signed in as" tag in header */
 .signedIn {
   align-self: flex-end;
@@ -85,17 +84,26 @@ body h1 {
   transform: translateY(-5px);
 }
 
-.checkout_books {
-  width: 12rem;
+.profile_books {
+  width: 11.5rem;
   height: 4rem;
-  background-color: greenyellow;
+  background-image: url("../img/book_edge.png");
   color: black;
   text-align: center;
-  transform: rotate(-60deg);
   border-radius: 0.5rem;
-  margin: 4rem -3rem;
-  padding: 0.5rem;
-  font-size: 1rem;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.3rem;
+  margin: 0.3rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  overflow: hidden;
+  filter: brightness(1.15);
+}
+
+.cyan {
+  border: 0.5rem solid cyan;
+}
+
+.magenta {
+  border: 0.5rem solid magenta;
 }

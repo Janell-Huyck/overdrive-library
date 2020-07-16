@@ -10,9 +10,9 @@
     <div class="tab-pane fade show active" id="checkout" role="tabpanel" aria-labelledby="checkout-tab">
         <h4>Books you have checked out:</h4>
         <br>
-        <div style="display: flex; flex-wrap: wrap;">
+        <div class="d-flex flex-wrap">
             {% for book in books_checkedout %}
-                <div class="checkout_books text-wrap" 
+                <blockquote class="profile_books cyan" 
                      tabindex="0" 
                      data-html='true' 
                      data-toggle="popover" 
@@ -24,24 +24,37 @@
                                         <a class="btn btn-outline-info" href="../digital_books/{{book.id}}/checkin?next=/profile">Return book</a>
                                    </div>'
                 >
-                    <p class="text-wrap">{{book.title}}</p>
-                </div>
+                    <p class="text-truncate mb-0">{{book.title}}</p>
+                    <span class="text-truncate blockquote-footer">By {{book.author_last}}, {{book.author_first}}</span>
+                </blockquote>
                 {% empty %}
-                <hr/>
                 <p> No books currently checked out </p>
+                <hr/>
             {% endfor %}
         </div>
     </div>
     <div class="tab-pane fade" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
         <h4>Books you have on hold:</h4>
         <br>
-        {% for book in books_onhold %}
-            <p><a href='../digital_books/{{book.id}}'>{{book.title}}</a><p/>
-            <a class="btn btn-secondary btn-sm" href='../digital_books/{{book.id}}/remove_hold'>Remove Hold</a>
-    
-            {% empty %}
-            <p> No books currently on hold </p>
-            <hr/>
-        {% endfor %}
+        <div class="d-flex flex-wrap">
+            {% for book in books_onhold %}
+                <blockquote class="profile_books magenta" 
+                     tabindex="0" 
+                     data-html='true' 
+                     data-toggle="popover" 
+                     data-placement="top" 
+                     data-trigger="focus" 
+                     data-content='<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
+                                        <a class="btn btn-outline-info" href="../digital_books/{{book.id}}">View</a>
+                                   </div>'
+                >
+                    <p class="text-truncate mb-0">{{book.title}}</p>
+                    <span class="text-truncate blockquote-footer">By {{book.author_last}}, {{book.author_first}}</span>
+                </blockquote>
+                {% empty %}
+                <p> No books currently on hold </p>
+                <hr/>
+            {% endfor %}
+        </div>
     </div>
 </div>
