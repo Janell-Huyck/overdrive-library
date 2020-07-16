@@ -57,11 +57,6 @@ body h1 {
   color: black;
 }
 
-/* Add a color to the active/current link
- .topnav a.active {
-  background-color: rgb(236, 100, 10);
-  color: white;
-}  */
 
 /* The "signed in as" tag in header */
 .signedIn {

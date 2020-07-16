@@ -20,9 +20,9 @@ def scrap_html(url):
         This eBook is for the use of anyone anywhere at no cost and with
         almost no restrictions whatsoever.  You may copy it, give it away or
         re-use it under the terms of the Project Gutenberg License included
-        with this eBook or online at www.gutenberg.org/license'''.format(title=title.group(1), author=author.group(1))
+        with this eBook or online at www.gutenberg.org/license'''.format(
+            title=title.group(1), author=author.group(1))
 
-    # breakpoint()
     if not title or not author or not release_date or not language:
         raise ValueError(
             'Sorry, but the page or book you tried to access is unavailable.')
@@ -31,7 +31,6 @@ def scrap_html(url):
         return (title.group(1),
                 author_first,
                 author_last,
-                # author.group(1),
                 release_date.group(1),
                 language.group(1),
                 description.group(1) if description else new_description)

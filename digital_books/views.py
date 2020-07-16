@@ -3,14 +3,12 @@ from django.shortcuts import HttpResponseRedirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from digital_books.forms import BookForm
 from digital_books.models import Book
 from digital_books.helpers import scrap_html, random_color, get_sort_title
 from custom_user.models import CustomUser
 
 
-# Create your views here.
 def index(request):
     letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
                'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -58,7 +56,6 @@ class CreateBook(LoginRequiredMixin, View):
                 title=data['title'],
                 author_last=data['author_last'],
                 author_first=data['author_first'],
-                # author=data['author'],
                 description=data['description'],
                 URL=data['URL'],
                 language=data['language'].title(),
@@ -77,7 +74,6 @@ def createGutenberg(request):
                 title=data['title'],
                 author_first=data['author_first'],
                 author_last=data['author_last'],
-                # author=data['author'],
                 description=data['description'],
                 URL=data['URL'],
                 language=data['language'].title(),
@@ -86,14 +82,14 @@ def createGutenberg(request):
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
-    new_title, new_author_first, new_author_last, _, new_language, new_description = scrap_html(
+    (new_title, new_author_first, new_author_last, _,
+     new_language, new_description) = scrap_html(
         projectg)
 
     form = BookForm(initial={
         'title': new_title,
         'author_first': new_author_first,
         'author_last': new_author_last,
-        # 'author': new_author,
         'description': new_description,
         'URL': projectg,
         'language': new_language,
@@ -124,19 +120,18 @@ def update_book(request, id):
                 book.title = data['title']
                 book.author_first = data['author_first'],
                 book.author_last = data['author_last'],
-                # book.author = data['author']
                 book.description = data['description']
                 book.URL = data['URL']
                 book.language = data['language'].title()
                 book.sort_title = data['sort_title']
                 book.save()
-                return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+                return HttpResponseRedirect(reverse(
+                    'detail_book', args=(id, )))
 
         form = BookForm(initial={
             'title': book.title,
             'author_last': book.author_last,
             'author_first': book.author_first,
-            # 'author': book.author,
             'description': book.description,
             'URL': book.URL,
             'language': book.language,
@@ -160,8 +155,8 @@ class DetailBook(View):
             held = book.holds.filter(id=request.user.id).exists()
             line_number = 23
             if held is True:
-                qs = Book.objects.get(id=id).holdorder_set.all()
-                for index, item in enumerate(Book.objects.get(id=id).holdorder_set.all()):
+                for index, item in enumerate(Book.objects.get(id=id)
+                                             .holdorder_set.all()):
                     if item.user == request.user:
                         line_number = index + 1
         else:
@@ -182,7 +177,7 @@ def checkout_book(request, id):
     book.checked_out.add(usr)
     try:
         book.save()
-    except:
+    except Exception:
         book.checked_out.remove(usr)
         book.save()
     return HttpResponseRedirect(reverse('detail_book', args=(id, )))
