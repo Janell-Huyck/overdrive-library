@@ -10,6 +10,9 @@ from custom_user.models import CustomUser
 
 
 def index(request):
+    
+    """Displays books available for checkout or holds.  Allows for filtering
+    displayed results."""
     books = Book.objects.all()
 
     sort_by = request.GET.get('sort')
@@ -32,16 +35,25 @@ def index(request):
         else:
             books = books.filter(author_last__istartswith=author_filter_by)
 
+    language_filter_by = request.GET.get('language')
+    if language_filter_by:
+        books = books.filter(language=language_filter_by)
+
+    languages = sorted(list({book.language for book in Book.objects.all()}))
     color = random_color
     return render(request, 'digital_books/index.html', {
 
         'books': books,
         'color': color,
         'letters': letters()
+        'languages': languages
     })
 
 
 class CreateBook(LoginRequiredMixin, View):
+    """If the user is a librarian, allows the user to create
+    a new book manually."""
+
     def get(self, request):
         if request.user.is_librarian is False:
             return HttpResponseRedirect(reverse('all_books'))
@@ -66,6 +78,9 @@ class CreateBook(LoginRequiredMixin, View):
 
 @login_required
 def createGutenberg(request):
+    """Allows the user to automatically look up a book's details when
+    given the HTML address from gutenberg.org"""
+
     if request.method == "POST":
         form = BookForm(request.POST)
         if form.is_valid():
@@ -103,6 +118,8 @@ def createGutenberg(request):
 
 @login_required
 def delete_book(request, id):
+    """Deletes a specific book object"""
+
     if request.user.is_superuser:
         book = Book.objects.get(id=id)
         book.delete()
@@ -111,6 +128,8 @@ def delete_book(request, id):
 
 @login_required
 def update_book(request, id):
+    """Allows the user to update a specific book object"""
+
     if request.user.is_superuser:
         book = Book.objects.get(id=id)
         if request.method == "POST":
@@ -144,6 +163,8 @@ def update_book(request, id):
 
 
 class DetailBook(View):
+    """Displays the details of a specific book"""
+
     def get(self, request, id):
         book = Book.objects.get(id=id)
 
@@ -172,6 +193,8 @@ class DetailBook(View):
 
 @login_required
 def checkout_book(request, id):
+    """Allows the user to check out the book to their user account."""
+
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
     book.checked_out.add(usr)
@@ -185,6 +208,10 @@ def checkout_book(request, id):
 
 @login_required
 def checkin_book(request, id):
+    """Allows a user to return a book to the 'shelves', so that it
+    is no longer checked out to their account.  Automatically checks
+    the book out to the next person in the hold list."""
+
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
     book.checked_out.remove(usr)
@@ -193,11 +220,15 @@ def checkin_book(request, id):
         book.holds.remove(next_hold)
         book.checked_out.add(next_hold)
     book.save()
-    return HttpResponseRedirect(request.GET.get('next', reverse('detail_book', args=(id,))))
+    return HttpResponseRedirect(request.GET.get(
+        'next', reverse('detail_book', args=(id,))))
 
 
 @login_required
 def hold_book(request, id):
+    """Allows a user to place a 'hold' on the book, so that it will be
+    checked out when it becomes available again."""
+
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
     book.holds.add(usr)
@@ -207,6 +238,10 @@ def hold_book(request, id):
 
 @login_required
 def remove_hold_book(request, id):
+    """Cancels the hold that a user placed on a particular book.
+    The user will no longer be associated with the 'holds' field
+    on the book."""
+
     book = Book.objects.get(id=id)
     usr = CustomUser.objects.get(id=request.user.id)
     book.holds.remove(usr)

@@ -6,6 +6,10 @@ import string
 
 
 def scrap_html(url):
+    """This helper function scrapes the gutenberg.org website.  Given
+    a book's HTML address, returns data on that book to populate the
+    creation of a new Book object for Overdrive-library"""
+
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser').text
     title = re.search(r'[tT]itle: ([ \S]+)', soup)
@@ -38,6 +42,10 @@ def scrap_html(url):
 
 
 def split_author(author_name):
+    """Given an author's name in the form "Firstname Lastname" returns
+    two variables: author_first and author_last for the first and last
+    name of the author for a given newly created Book object."""
+
     if ',' in author_name:
         author_name_list = author_name.split(",")[0]
         author_name_list = author_name_list.split(" ")
@@ -62,12 +70,18 @@ def split_author(author_name):
 
 
 def random_color():
+    """Returns a random choice of color to be used for borders of books."""
+
     colors = ['#FF0000', '#8b0000', '##FFA500', '#ffffbf', '#fcbe11', '#008000',
               '#0000FF', '#00008B', '#966fd6', '#301934', '#808080', '#FFC0CB', '#000000']
     return random.choice(colors)
 
 
 def get_sort_title(title):
+    """Given a book's title, returns that title without the small
+    words 'a', 'an', and 'the' so that the returned title can be
+    used for sorting purposes."""
+
     small_words = ["A", "An", "The"]
     title = list(title.split(" "))
     if title[0] in small_words:

@@ -2,8 +2,19 @@
 {% extends '../base.html' %}
 {% block body_block %}
 <div class="display-flex flex-column">
-<div class="row">
-    <div class="card col-sm-6">
+<div class="card-group">
+    <div class="card p-2 bg-light mb-3">
+        <h5 class="card-header">Filter By Language:</h5>
+        <div class="list-group-item">
+            {% for language in languages %}
+                <a href="{% url 'all_books'%}?language={{language}}">{{language}}</a>
+            {% endfor %}
+            <br/><br/>
+        </div>
+        <a class="btn btn-secondary float-left" href="{% url 'all_books'%}">Show All Languages</a>
+    </div>
+
+    <div class="card p-2 bg-light mb-3">
         <h5 class="card-header">Filter Titles By:</h5>
         <div class="list-group-item">
             {% for letter in letters %}
@@ -12,7 +23,7 @@
         </div>
         <a class="btn btn-secondary float-left" href="{% url 'all_books'%}?sort=sort_title">Sort All By Title</a>
     </div>
-    <div class="card col-sm-6">
+    <div class="card p-2 bg-light mb-3">
         <h5 class="card-header">Filter Authors By:</h5>
         <div class="list-group-item">
             {% for letter in letters %}
