@@ -10,7 +10,7 @@ class SignupForm(forms.ModelForm):
         }
         model = CustomUser
         fields = ('username', 'display_name',
-                  'email', 'password', 'is_librarian')
+                  'email', 'password')
 
 
 class LoginForm(forms.Form):

@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     signup_date = models.DateField(auto_now_add=True, null=True, blank=True)
     is_librarian = models.BooleanField(default=False)
     display_name = models.CharField(max_length=50)
-    REQUIRED_FIELDS = ['email', 'display_name', 'is_librarian']
+    REQUIRED_FIELDS = ['email', 'display_name']
 
     def __str__(self):
         return self.display_name
@@ -19,6 +19,9 @@ class CustomUser(AbstractUser):
     def save(self, *args, **kwargs):
         """Custom save function allows for creation of a library card
         number if one has not yet been created for the user."""
+
+        if self.is_superuser:
+            self.is_librarian = True
 
         while not self.library_card_number:
             new_number = makenumber()
