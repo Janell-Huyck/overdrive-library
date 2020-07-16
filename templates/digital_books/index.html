@@ -4,6 +4,17 @@
 <h1>All Available Books</h1>
 <a class="btn btn-primary btn-sm" href="{% url 'all_books'%}?sort=sort_title">Sort By Title</a>
 <a class="btn btn-primary btn-sm" href="{% url 'all_books'%}?sort=author">Sort by Author</a>
+<a class="btn btn-primary btn-sm" href="{% url 'all_books'%}?title_filter=f">Title starts with F</a>
+<div>
+    <br/>
+    <hr/>
+    <h5>Filter Titles By:</h5>
+    {% for letter in letters %}
+            <a href="{% url 'all_books'%}?title_filter={{letter}}">{{letter}}</a>
+    {% endfor %}
+    <br/>
+    <hr/>
+</div>
 <div class="row row-cols-3">
     {% for book in books %}
     <div class="p-2">
@@ -13,6 +24,9 @@
             <h6 class="card-subtitle mb-2 text-muted text-truncate">By {{ book.author }}</h6>
         </a>
     </div>
+    {% empty %}
+            <br/>
+            <p> => Sorry, no books match your search parameters. </p>
     {% endfor %}
 </div>
 
