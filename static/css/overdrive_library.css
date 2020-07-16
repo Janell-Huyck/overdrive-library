@@ -107,3 +107,7 @@ body h1 {
 .magenta {
   border: 0.5rem solid magenta;
 }
+
+.filter-box{
+  flex-grow: 1
+}

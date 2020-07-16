@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 {% extends '../base.html' %}
 {% block body_block %}
-<div class="display-flex flex-column">
-<div class="card-group">
-    <div class="card p-2 bg-light mb-3">
+<div class="d-flex flex-column ">
+<div class="card-group align-items-stretch">
+    <div class="card align-items-stretch flex-column p-2 bg-light mb-3">
         <h5 class="card-header">Filter By Language:</h5>
-        <div class="list-group-item">
+        <div class="list-group-item align-items-stretch filter-box">
             {% for language in languages %}
                 <a href="{% url 'all_books'%}?language={{language}}">{{language}}</a>
             {% endfor %}
-            <br/><br/>
         </div>
         <a class="btn btn-secondary float-left" href="{% url 'all_books'%}">Show All Languages</a>
     </div>
 
-    <div class="card p-2 bg-light mb-3">
+    <div class="card p-2 bg-light mb-3 ">
         <h5 class="card-header">Filter Titles By:</h5>
-        <div class="list-group-item">
+        <div class="list-group-item filter-box">
             {% for letter in letters %}
                     <a href="{% url 'all_books'%}?title_filter={{letter}}">{{letter}}</a>
             {% endfor %}
@@ -25,7 +24,7 @@
     </div>
     <div class="card p-2 bg-light mb-3">
         <h5 class="card-header">Filter Authors By:</h5>
-        <div class="list-group-item">
+        <div class="list-group-item filter-box">
             {% for letter in letters %}
                     <a href="{% url 'all_books'%}?author_filter={{letter}}">{{letter}}</a>
             {% endfor %}
