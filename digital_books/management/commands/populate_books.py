@@ -27,7 +27,6 @@ class Command(BaseCommand):
                     title=title,
                     author_first=author_first,
                     author_last=author_last,
-                    # author=author,
                     description=description,
                     URL=url,
                     language=language,

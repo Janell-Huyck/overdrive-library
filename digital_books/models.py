@@ -17,7 +17,6 @@ Who has it checked out -one to many field
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    # author = models.CharField(max_length=200)
     description = models.TextField()
     limit = models.IntegerField(default=3)
     checked_out = models.ManyToManyField(
@@ -37,13 +36,6 @@ class Book(models.Model):
     def available(self):
         return self.limit > len(self.checked_out.all())
 
-    # limit 3 user's object
-    # def save(self, *args, **kwargs):
-    #     if self.checked_out.count() > self.limit:
-    #         raise ValidationError(
-    #             "Maximum {} related objects are allowed".format(self.limit))
-    #     super().save(*args, **kwargs)
-
 
 class HoldOrder(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -52,11 +44,3 @@ class HoldOrder(models.Model):
 
     class Meta:
         ordering = ('time_created',)
-
-
-# to get a reference to the next user with a hold
-# try:
-#   Book.objects.get(book instance).holdorder_set.all()[0].user
-    # If you get here, it exists...
-# except IndexError:
-    # there are no holds
