@@ -12,7 +12,8 @@ from custom_user.models import CustomUser
 
 # Create your views here.
 def index(request):
-    books = Book.objects.all()
+    sort_by = request.GET.get('sort', 'id')
+    books = Book.objects.all().order_by(sort_by, 'title')
     color = random_color
     return render(request, 'digital_books/index.html', {
         'books': books,

@@ -2,6 +2,8 @@
 {% extends '../base.html' %}
 {% block body_block %}
 <h1>All Available Books</h1>
+<a class="btn btn-primary btn-sm" href="{% url 'all_books'%}?sort=title">Sort By Title</a>
+<a class="btn btn-primary btn-sm" href="{% url 'all_books'%}?sort=author">Sort by Author</a>
 <div class="row row-cols-3">
     {% for book in books %}
     <div class="p-2">
