@@ -12,12 +12,22 @@ from custom_user.models import CustomUser
 
 # Create your views here.
 def index(request):
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+               'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+               'Y', 'Z']
     sort_by = request.GET.get('sort', 'id')
-    books = Book.objects.all().order_by(sort_by, 'sort_title')
+    title_filter_by = request.GET.get('title_filter')
+    if title_filter_by:
+        books = Book.objects.filter(
+            sort_title__istartswith=title_filter_by)
+    else:
+        books = Book.objects.all()
+    books = books.order_by(sort_by)
     color = random_color
     return render(request, 'digital_books/index.html', {
         'books': books,
-        'color': color
+        'color': color,
+        'letters': letters
     })
 
 
