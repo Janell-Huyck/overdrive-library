@@ -32,12 +32,18 @@ def index(request):
         books = books.filter(
             author_last__istartswith=author_filter_by)
 
+    language_filter_by = request.GET.get('language')
+    if language_filter_by:
+        books = books.filter(language=language_filter_by)
+
+    languages = sorted(list({book.language for book in Book.objects.all()}))
     color = random_color
     return render(request, 'digital_books/index.html', {
 
         'books': books,
         'color': color,
-        'letters': letters
+        'letters': letters,
+        'languages': languages
     })
 
 
