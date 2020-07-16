@@ -26,6 +26,7 @@ class Book(models.Model):
         CustomUser, related_name='holds', blank=True, through='HoldOrder')
     URL = models.URLField(max_length=200)
     language = models.CharField(max_length=50)
+    sort_title = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

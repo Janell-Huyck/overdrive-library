@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from digital_books.models import Book
-from digital_books.helpers import scrap_html
+from digital_books.helpers import scrap_html, get_sort_title
 import random
 
 
@@ -25,7 +25,12 @@ class Command(BaseCommand):
             except:
                 pass
             book = Book.objects.create(
-                title=title, author=author, description=description, URL=url, language=language)
+                title=title,
+                author=author,
+                description=description,
+                URL=url,
+                language=language,
+                sort_title=get_sort_title(title))
             book.save()
             del book
             n -= 1

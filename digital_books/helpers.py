@@ -34,3 +34,11 @@ def random_color():
     colors = ['#FF0000', '#8b0000', '##FFA500', '#ffffbf', '#fcbe11', '#008000',
               '#0000FF', '#00008B', '#966fd6', '#301934', '#808080', '#FFC0CB', '#000000']
     return random.choice(colors)
+
+
+def get_sort_title(title):
+    small_words = ["A", "An", "The"]
+    title = list(title.split(" "))
+    if title[0] in small_words:
+        title = title[1:]
+    return " ".join(title)
