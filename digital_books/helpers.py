@@ -2,6 +2,7 @@ import re
 from bs4 import BeautifulSoup
 import requests
 import random
+import string
 
 
 def scrap_html(url):
@@ -72,3 +73,9 @@ def get_sort_title(title):
     if title[0] in small_words:
         title = title[1:]
     return (" ").join(title)
+
+
+def letters():
+    letters_list = list(string.ascii_uppercase)
+    letters_list.append('other')
+    return letters_list

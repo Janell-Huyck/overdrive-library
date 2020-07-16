@@ -5,15 +5,11 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from digital_books.forms import BookForm
 from digital_books.models import Book
-from digital_books.helpers import scrap_html, random_color, get_sort_title
+from digital_books.helpers import scrap_html, random_color, get_sort_title, letters
 from custom_user.models import CustomUser
 
 
 def index(request):
-    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-               'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-               'Y', 'Z']
-
     books = Book.objects.all()
 
     sort_by = request.GET.get('sort')
@@ -24,20 +20,24 @@ def index(request):
 
     title_filter_by = request.GET.get('title_filter')
     if title_filter_by:
-        books = books.filter(
-            sort_title__istartswith=title_filter_by)
+        if title_filter_by == 'other':
+            books = books.filter(sort_title__iregex=r'^[^a-z].*')
+        else:
+            books = books.filter(sort_title__istartswith=title_filter_by)
 
     author_filter_by = request.GET.get('author_filter')
     if author_filter_by:
-        books = books.filter(
-            author_last__istartswith=author_filter_by)
+        if author_filter_by == 'other':
+            books = books.filter(author_last__iregex=r'^[^a-z].*')
+        else:
+            books = books.filter(author_last__istartswith=author_filter_by)
 
     color = random_color
     return render(request, 'digital_books/index.html', {
 
         'books': books,
         'color': color,
-        'letters': letters
+        'letters': letters()
     })
 
 
