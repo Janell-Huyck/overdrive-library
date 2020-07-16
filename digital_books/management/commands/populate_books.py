@@ -21,19 +21,20 @@ class Command(BaseCommand):
             url = "http://www.gutenberg.org/files/{}/{}-h/{}-h.htm".format(
                 random_num, random_num, random_num)
             try:
-                title, author, _, language, description = scrap_html(url)
+                title, author_first, author_last, _, language, description = scrap_html(
+                    url)
+                book = Book.objects.create(
+                    title=title,
+                    author_first=author_first,
+                    author_last=author_last,
+                    # author=author,
+                    description=description,
+                    URL=url,
+                    language=language,
+                    sort_title=get_sort_title(title))
+                book.save()
+                del book
             except:
-                pass
-            book = Book.objects.create(
-                title=title,
-                author=author,
-                description=description,
-                URL=url,
-                language=language,
-                sort_title=get_sort_title(title))
-            book.save()
-            del book
-            n -= 1
-
+                n -= 1
             self.stdout.write(self.style.SUCCESS(
-                'Successfully eBook added eBook["%s"]' % random_num))
+                'Successfully eBook added eBook["%s"].' % random_num))

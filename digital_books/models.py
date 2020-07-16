@@ -17,7 +17,7 @@ Who has it checked out -one to many field
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.CharField(max_length=200)
+    # author = models.CharField(max_length=200)
     description = models.TextField()
     limit = models.IntegerField(default=3)
     checked_out = models.ManyToManyField(
@@ -27,6 +27,8 @@ class Book(models.Model):
     URL = models.URLField(max_length=200)
     language = models.CharField(max_length=50)
     sort_title = models.CharField(max_length=200)
+    author_last = models.CharField(max_length=200)
+    author_first = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

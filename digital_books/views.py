@@ -15,16 +15,28 @@ def index(request):
     letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
                'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
                'Y', 'Z']
-    sort_by = request.GET.get('sort', 'id')
+
+    books = Book.objects.all()
+
+    sort_by = request.GET.get('sort')
+    if sort_by == "author":
+        books = books.order_by("author_last", "author_first")
+    elif sort_by == "sort_title":
+        books = books.order_by("sort_title")
+
     title_filter_by = request.GET.get('title_filter')
     if title_filter_by:
-        books = Book.objects.filter(
+        books = books.filter(
             sort_title__istartswith=title_filter_by)
-    else:
-        books = Book.objects.all()
-    books = books.order_by(sort_by)
+
+    author_filter_by = request.GET.get('author_filter')
+    if author_filter_by:
+        books = books.filter(
+            author_last__istartswith=author_filter_by)
+
     color = random_color
     return render(request, 'digital_books/index.html', {
+
         'books': books,
         'color': color,
         'letters': letters
@@ -44,7 +56,9 @@ class CreateBook(LoginRequiredMixin, View):
             data = form.cleaned_data
             Book.objects.create(
                 title=data['title'],
-                author=data['author'],
+                author_last=data['author_last'],
+                author_first=data['author_first'],
+                # author=data['author'],
                 description=data['description'],
                 URL=data['URL'],
                 language=data['language'].title(),
@@ -61,7 +75,9 @@ def createGutenberg(request):
             data = form.cleaned_data
             Book.objects.create(
                 title=data['title'],
-                author=data['author'],
+                author_first=data['author_first'],
+                author_last=data['author_last'],
+                # author=data['author'],
                 description=data['description'],
                 URL=data['URL'],
                 language=data['language'].title(),
@@ -70,12 +86,14 @@ def createGutenberg(request):
             return HttpResponseRedirect(reverse('all_books'))
 
     projectg = request.POST['projectg']
-    new_title, new_author, _, new_language, new_description = scrap_html(
+    new_title, new_author_first, new_author_last, _, new_language, new_description = scrap_html(
         projectg)
 
     form = BookForm(initial={
         'title': new_title,
-        'author': new_author,
+        'author_first': new_author_first,
+        'author_last': new_author_last,
+        # 'author': new_author,
         'description': new_description,
         'URL': projectg,
         'language': new_language,
@@ -104,7 +122,9 @@ def update_book(request, id):
             if form.is_valid():
                 data = form.cleaned_data
                 book.title = data['title']
-                book.author = data['author']
+                book.author_first = data['author_first'],
+                book.author_last = data['author_last'],
+                # book.author = data['author']
                 book.description = data['description']
                 book.URL = data['URL']
                 book.language = data['language'].title()
@@ -114,7 +134,9 @@ def update_book(request, id):
 
         form = BookForm(initial={
             'title': book.title,
-            'author': book.author,
+            'author_last': book.author_last,
+            'author_first': book.author_first,
+            # 'author': book.author,
             'description': book.description,
             'URL': book.URL,
             'language': book.language,
