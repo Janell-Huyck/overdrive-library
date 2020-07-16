@@ -10,7 +10,6 @@ from custom_user.models import CustomUser
 
 
 def index(request):
-    
     """Displays books available for checkout or holds.  Allows for filtering
     displayed results."""
     books = Book.objects.all()
@@ -45,7 +44,7 @@ def index(request):
 
         'books': books,
         'color': color,
-        'letters': letters()
+        'letters': letters(),
         'languages': languages
     })
 
