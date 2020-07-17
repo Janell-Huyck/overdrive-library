@@ -2,6 +2,7 @@ import re
 from bs4 import BeautifulSoup
 import requests
 import random
+import string
 import smtplib
 from email.message import EmailMessage
 
