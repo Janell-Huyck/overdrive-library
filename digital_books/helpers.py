@@ -4,6 +4,7 @@ import environ
 from bs4 import BeautifulSoup
 import requests
 import random
+import string
 import smtplib
 from email.message import EmailMessage
 
@@ -41,8 +42,7 @@ def scrap_html(url):
                 author_last,
                 release_date.group(1),
                 language.group(1),
-                description.group(1) if description else new_description)
-                
+                description.group(1) if description else new_description)            
 
 
 def split_author(author_name):
@@ -81,7 +81,6 @@ def random_color():
     return random.choice(colors)
 
 
-
 def get_sort_title(title):
     """Given a book's title, returns that title without the small
     words 'a', 'an', and 'the' so that the returned title can be
@@ -91,7 +90,7 @@ def get_sort_title(title):
     title = list(title.split(" "))
     if title[0] in small_words:
         title = title[1:]
-    return (" ").join(title)
+    return " ".join(title)
 
 
 def letters():
@@ -129,4 +128,3 @@ def hold_notification_email(user, book):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(address, password)
         smtp.send_message(msg)
-
