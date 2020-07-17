@@ -1,4 +1,6 @@
 import re
+import os
+import environ
 from bs4 import BeautifulSoup
 import requests
 import random
@@ -99,8 +101,12 @@ def letters():
 
 def hold_notification_email(user, book):
 # MOVE TO ENVIRONMENT VARIABLES!!!!!!!!!!
-    address = 'EbookLibraryDemo@gmail.com'
-    password = 'OneTwo(12)'
+    env = environ.Env()
+    # reading .env file
+    environ.Env.read_env()
+    address = env("ADDRESS")
+    password = env("PASSWORD")
+
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     msg = EmailMessage()
     msg['Subject'] = 'Your book is available' 
@@ -113,10 +119,10 @@ def hold_notification_email(user, book):
     # <!DOCTYPE html>
     # <html>
     #     <body>
-    #         <h1 style="color:Green;">your copy of {} is ready. read it now at {}</h1>
+    #         <h1 style="color:Green;">{},\n\nyour copy of {} is ready. read it now at {}</h1>
     #     </body>
     # </html>
-    # """.format(book.title, book.URL), subtype='html')
+    # """.format(user.username, book.title, book.URL), subtype='html')
 
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
