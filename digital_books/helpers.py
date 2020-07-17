@@ -2,6 +2,8 @@ import re
 from bs4 import BeautifulSoup
 import requests
 import random
+import smtplib
+from email.message import EmailMessage
 
 
 def scrap_html(url):
@@ -42,3 +44,28 @@ def get_sort_title(title):
     if title[0] in small_words:
         title = title[1:]
     return " ".join(title)
+
+def hold_notification_email(user, book):
+# MOVE TO ENVIRONMENT VARIABLES!!!!!!!!!!
+    address = 'EbookLibraryDemo@gmail.com'
+    password = 'OneTwo(12)'
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    msg = EmailMessage()
+    msg['Subject'] = 'Your book is available' 
+    msg['To'] = user.email
+    msg['From'] = address
+
+    msg.set_content('Test Test')
+    msg.add_alternative("""\
+    <!DOCTYPE html>
+    <html>
+        <body>
+            <h1 style="color:Green;">your copy of {book.title} is ready. read it now at {book.url}</h1>
+        </body>
+    </html>
+    """, subtype='html')
+
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(address, password)
+        smtp.send_message(msg)
