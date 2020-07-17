@@ -55,15 +55,16 @@ def hold_notification_email(user, book):
     msg['To'] = user.email
     msg['From'] = address
 
-    msg.set_content('Test Test')
-    msg.add_alternative("""\
-    <!DOCTYPE html>
-    <html>
-        <body>
-            <h1 style="color:Green;">your copy of {book.title} is ready. read it now at {book.url}</h1>
-        </body>
-    </html>
-    """, subtype='html')
+    msg.set_content('{},\n\nyour copy of {} is ready.\nread it now at {}'.format(user.username,book.title, book.URL))
+    # VVV can add html to email if we want to get fancy VVV
+    # msg.add_alternative("""\
+    # <!DOCTYPE html>
+    # <html>
+    #     <body>
+    #         <h1 style="color:Green;">your copy of {} is ready. read it now at {}</h1>
+    #     </body>
+    # </html>
+    # """.format(book.title, book.URL), subtype='html')
 
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:

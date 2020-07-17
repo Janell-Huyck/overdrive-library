@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from digital_books.forms import BookForm
 from digital_books.models import Book
-from digital_books.helpers import scrap_html, random_color, get_sort_title
+from digital_books.helpers import scrap_html, random_color, get_sort_title, hold_notification_email
 from custom_user.models import CustomUser
 
 
@@ -165,6 +165,7 @@ def checkin_book(request, id):
         next_hold = book.holdorder_set.all()[0].user
         book.holds.remove(next_hold)
         book.checked_out.add(next_hold)
+        hold_notification_email(next_hold, book)
     book.save()
     return HttpResponseRedirect(request.GET.get('next', reverse('detail_book', args=(id,))))
 
