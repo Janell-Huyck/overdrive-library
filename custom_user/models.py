@@ -17,6 +17,12 @@ class CustomUser(AbstractUser):
         return self.display_name
 
     def save(self, *args, **kwargs):
+        """Custom save function allows for creation of a library card
+        number if one has not yet been created for the user."""
+
+        if self.is_superuser:
+            self.is_librarian = True
+
         while not self.library_card_number:
             new_number = makenumber()
             all_numbers = [custom_user.library_card_number
@@ -26,16 +32,3 @@ class CustomUser(AbstractUser):
             if new_number not in all_numbers:
                 self.library_card_number = new_number
         super(CustomUser, self).save(*args, **kwargs)
-
-
-"""
-Custom_User
-
-display_name: charfield
-library card number : integer field
-password :  Charfield, password widget
-signup date: datefield
-email: email field
-Is an admin: Boolean
-
-"""

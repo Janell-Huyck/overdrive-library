@@ -9,7 +9,8 @@ class SignupForm(forms.ModelForm):
             'password': forms.PasswordInput(),
         }
         model = CustomUser
-        fields = ('username', 'display_name', 'email', 'password', )
+        fields = ('username', 'display_name',
+                  'email', 'password')
 
 
 class LoginForm(forms.Form):
