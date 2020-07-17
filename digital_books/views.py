@@ -5,11 +5,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from digital_books.forms import BookForm
 from digital_books.models import Book
-<<<<<<< HEAD
 from digital_books.helpers import scrap_html, random_color, get_sort_title, hold_notification_email
-=======
-from digital_books.helpers import scrap_html, random_color, get_sort_title, letters
->>>>>>> upstream/master
 from custom_user.models import CustomUser
 
 
