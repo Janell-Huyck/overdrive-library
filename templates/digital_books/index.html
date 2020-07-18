@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 {% extends '../base.html' %}
 {% block body_block %}
-<div class="d-flex flex-column ">
-<div class="card-group align-items-stretch">
-    <div class="card align-items-stretch flex-column p-2 bg-light mb-3">
-        <h5 class="card-header">Filter By Language:</h5>
-        <div class="list-group-item align-items-stretch filter-box">
-            {% for language in languages %}
-                <a href="{% url 'all_books'%}?language={{language}}">{{language}}</a>
-            {% endfor %}
+<div class="d-flex flex-column">
+    <div class="card-group">
+        <div class="card flex-column p-2 bg-light mb-3">
+            <h5 class="card-header">Filter By Language:</h5>
+            <div class="list-group-item filter-box">
+                {% for language in languages %}
+                    <a href="{% url 'all_books'%}?language={{language}}">{{language}}</a>
+                {% endfor %}
+            </div>
+            <a class="btn btn-secondary float-left" href="{% url 'all_books'%}">Show All Languages</a>
         </div>
-        <a class="btn btn-secondary float-left" href="{% url 'all_books'%}">Show All Languages</a>
-    </div>
 
-    <div class="card p-2 bg-light mb-3 ">
-        <h5 class="card-header">Filter Titles By:</h5>
-        <div class="list-group-item filter-box">
-            {% for letter in letters %}
+        <div class="card p-2 bg-light mb-3 ">
+            <h5 class="card-header">Filter Titles By:</h5>
+            <div class="list-group-item filter-box">
+                {% for letter in letters %}
                     <a href="{% url 'all_books'%}?title_filter={{letter}}">{{letter}}</a>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <a class="btn btn-secondary float-left" href="{% url 'all_books'%}?sort=sort_title">Sort All By Title</a>
         </div>
-        <a class="btn btn-secondary float-left" href="{% url 'all_books'%}?sort=sort_title">Sort All By Title</a>
-    </div>
-    <div class="card p-2 bg-light mb-3">
-        <h5 class="card-header">Filter Authors By:</h5>
-        <div class="list-group-item filter-box">
-            {% for letter in letters %}
+        <div class="card p-2 bg-light mb-3">
+            <h5 class="card-header">Filter Authors By:</h5>
+            <div class="list-group-item filter-box">
+                {% for letter in letters %}
                     <a href="{% url 'all_books'%}?author_filter={{letter}}">{{letter}}</a>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <a class="btn btn-secondary float-left" href="{% url 'all_books'%}?sort=author">Sort All by Author</a>
         </div>
-        <a class="btn btn-secondary float-left" href="{% url 'all_books'%}?sort=author">Sort All by Author</a>
     </div>
 </div>
-<div class="container">
 <h1>Available Books</h1>
 <div class="row row-cols-3">
     {% for book in books %}
@@ -47,7 +47,5 @@
             <br/>
             <p> => Sorry, no books match your search parameters. </p>
     {% endfor %}
-</div>
-</div>
 </div>
 {% endblock body_block %}
