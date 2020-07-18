@@ -3,12 +3,27 @@
 {% block body_block %}
 
 <div class="row m-3">
-    <div class='col-4'>
-        <h4>Library Card Number: {{custom_user.library_card_number}}</h4>
-        <p>Display name: {{custom_user.display_name}}</p>
-        <p>Email: {{custom_user.email}}</p>
-        <p>Date joined: {{custom_user.signup_date}}</p>
-        <p>Are you a librarian? -> {% if custom_user.is_librarian %} Yes {% else %} No {% endif %}</p>
+    <div class='col-4 card'>
+        <div class="card-body">
+            <h3 class="card-title">Good {{greeting}}, {{custom_user.display_name}}!</h3>
+            <p class="card-text">Here you can see the eBooks that you just checked out and those that are still on hold.
+                To perform an action click on any eBook.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Library Card ID:</b> {{custom_user.library_card_number}}</li>
+            <li class="list-group-item"><b>Username:</b> {{custom_user.username}}</li>
+            <li class="list-group-item"><b>Email:</b> {{custom_user.email}}</li>
+            <li class="list-group-item"><b>Date joined:</b> {{custom_user.signup_date}}</li>
+            <li class="list-group-item">
+                <p><b>Librarian:</b>
+                    {% if custom_user.is_librarian %}
+                    <span class="material-icons text-success align-text-bottom">check_circle</span>
+                    {% else %}
+                    <span class="material-icons text-danger align-text-bottom">cancel</span>
+                    {% endif %}
+                </p>
+            </li>
+        </ul>
     </div>
     <div class='col-8'>
         {% include '../custom_user/profile_books.html' with book=book books_checkedout=books_out books_onhold=books_hold %}
