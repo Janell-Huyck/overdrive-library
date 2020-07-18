@@ -1,4 +1,5 @@
 from random import randint
+from datetime import datetime
 
 
 def makenumber():
@@ -12,3 +13,13 @@ def makenumber():
 
     print("new number is:", new_number)
     return new_number
+
+
+def greeting():
+    current_hour = datetime.now().hour
+    if current_hour >= 5 and current_hour < 12:
+        return 'Morning'
+    elif current_hour >= 12 and current_hour < 18:
+        return 'Afternoon'
+    else:
+        return 'Evening'
