@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import HttpResponseRedirect, reverse
+from django.contrib.auth.decorators import login_required
+from django.views.generic.base import View
+
 from custom_user.models import CustomUser
 from custom_user.forms import SignupForm, LoginForm
-from django.views.generic.base import View
+from custom_user.helpers import greeting
+
 from digital_books.models import Book
-from django.contrib.auth.decorators import login_required
 
 
 def createUser(request):
@@ -101,7 +104,8 @@ def profile(request):
                   'custom_user/profile.html',
                   {'custom_user': custom_user,
                    'books_out': books_out,
-                   'books_hold': books_hold})
+                   'books_hold': books_hold,
+                   'greeting': greeting})
 
 
 def index(request):
