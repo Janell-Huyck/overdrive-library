@@ -2,21 +2,57 @@
 {% extends '../base.html' %}
 
 {% block body_block %}
-<form method="post">
-    {% csrf_token %}
-    <br/>
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
-</form>
-{% if not show_gutenberg %}
 
-<br>
-<p>--OR--</p>
-<p>Look up by Gutenberg HTML link</p>
-<form action="gutenberg/" method="POST">
-    {% csrf_token %}
-    <input type="url" name="projectg">
-    <input type="submit" value="Add Gutenberg eBook">
-</form>
-{% endif %}
+<div class="bg_cover bg_bookform"></div>
+
+<div class="row my-4">
+    <div class="col">
+        {% if not show_gutenberg %}
+        <h1>Option 1</h1>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group col-md-8 mx-auto">
+                Title: {{ form.title }}
+            </div>
+            <div class="form-group col-md-6 mx-auto">
+                Author:
+                <div class="row">
+                    {{ form.author_first }}
+                    {{ form.author_last }}
+                </div>
+            </div>
+            <div class="form-group col-md-4 mx-auto">
+                Language: {{ form.language }}
+            </div>
+            <div class="form-group col-md-10 mx-auto">
+                Description: {{ form.description }}
+            </div>
+            <div class="form-group col-md-10 mx-auto">
+                URL: {{ form.URL }}
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary btn-lg w-50" type="submit">Submit Book</button>
+            </div>
+        </form>
+    </div>
+    <div class="col text-center">
+        {% if not show_gutenberg %}
+        <h1>Option 2</h1>
+        <p>1. Look up any eBook through the Project Gutenberg website <a href="http://www.gutenberg.org/"
+                target="_blank">here</a>.</p>
+        <p>2. Click on the book you desire to upload in this project</p>
+        <p>3. Select the first option: <i>Read this book online: HTML</i></p>
+        <p>4. Copy the link and paste it down here to add the eBook</p>
+        <form action="gutenberg/" method="POST">
+            {% csrf_token %}
+            <input type="url" name="projectg" placeholder="Link here">
+            <input type="submit" value="Add Gutenberg eBook">
+        </form>
+        {% else %}
+        <p class="display-3">GREAT JOB!</p>
+        {% endif %}
+    </div>
+</div>
+
 {% endblock body_block %}
