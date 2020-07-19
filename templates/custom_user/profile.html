@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 {% extends '../base.html' %}
 {% block body_block %}
+<div class="bg_cover bg_profile"><a href='https://www.freepik.com/free-photos-vectors/background'>Background photo
+        created by freepik - www.freepik.com</a></div>
 
 <div class="row m-3">
-    <div class='col-4 card'>
+    <div class='col-4 card bg-transparent'>
         <div class="card-body">
-            <h3 class="card-title">Good {{greeting}}, {{custom_user.display_name}}!</h3>
+            <h3 class="card-title font-weight-bold">Good {{greeting}}, {{custom_user.display_name}}!</h3>
             <p class="card-text">Here you can see the eBooks that you just checked out and those that are still on hold.
                 To perform an action click on any eBook.</p>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><b>Library Card ID:</b> {{custom_user.library_card_number}}</li>
-            <li class="list-group-item"><b>Username:</b> {{custom_user.username}}</li>
-            <li class="list-group-item"><b>Email:</b> {{custom_user.email}}</li>
-            <li class="list-group-item"><b>Date joined:</b> {{custom_user.signup_date}}</li>
-            <li class="list-group-item">
+        <ul class="list-group list-group-flush bg-transparent">
+            <li class="list-group-item bg-transparent"><b>Library Card ID:</b> {{custom_user.library_card_number}}</li>
+            <li class="list-group-item bg-transparent"><b>Username:</b> {{custom_user.username}}</li>
+            <li class="list-group-item bg-transparent"><b>Email:</b> {{custom_user.email}}</li>
+            <li class="list-group-item bg-transparent"><b>Date joined:</b> {{custom_user.signup_date}}</li>
+            <li class="list-group-item bg-transparent">
                 <p><b>Librarian:</b>
                     {% if custom_user.is_librarian %}
                     <span class="material-icons text-success align-text-bottom">check_circle</span>
