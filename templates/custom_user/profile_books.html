@@ -8,7 +8,7 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="checkout" role="tabpanel" aria-labelledby="checkout-tab">
-        <h4>Books you have checked out:</h4>
+        <h4 class="bg-transparent">Books you have checked out:</h4>
         <br>
         <div class="d-flex flex-wrap">
             {% for book in books_checkedout %}
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="tab-pane fade" id="onhold" role="tabpanel" aria-labelledby="onhold-tab">
-        <h4>Books you have on hold:</h4>
+        <h4 class="bg-transparent">Books you have on hold:</h4>
         <br>
         <div class="d-flex flex-wrap">
             {% for book in books_onhold %}
@@ -46,6 +46,7 @@
                      data-trigger="focus" 
                      data-content='<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
                                         <a class="btn btn-outline-info" href="../digital_books/{{book.id}}">View</a>
+                                        <a class="btn btn-outline-info" href="../digital_books/{{book.id}}/remove_hold?next=/profile">Remove hold</a>
                                    </div>'
                 >
                     <p class="text-truncate mb-0">{{book.title}}</p>

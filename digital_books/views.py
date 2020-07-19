@@ -246,7 +246,7 @@ def remove_hold_book(request, id):
     usr = CustomUser.objects.get(id=request.user.id)
     book.holds.remove(usr)
     book.save()
-    return HttpResponseRedirect(reverse('detail_book', args=(id, )))
+    return HttpResponseRedirect(request.GET.get('next', reverse('detail_book', args=(id, ))))
 
 
 def error404(request, exception):
