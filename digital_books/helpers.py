@@ -1,12 +1,16 @@
 import re
-import os
-import environ
 from bs4 import BeautifulSoup
 import requests
 import random
 import string
 import smtplib
 from email.message import EmailMessage
+import os
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 
 
 def scrap_html(url):
@@ -42,7 +46,7 @@ def scrap_html(url):
                 author_last,
                 release_date.group(1),
                 language.group(1),
-                description.group(1) if description else new_description)            
+                description.group(1) if description else new_description)
 
 
 def split_author(author_name):
@@ -100,20 +104,18 @@ def letters():
 
 
 def hold_notification_email(user, book):
-# MOVE TO ENVIRONMENT VARIABLES!!!!!!!!!!
-    env = environ.Env()
-    # reading .env file
-    environ.Env.read_env()
+    # MOVE TO ENVIRONMENT VARIABLES!!!!!!!!!!
     address = env("ADDRESS")
     password = env("PASSWORD")
 
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     msg = EmailMessage()
-    msg['Subject'] = 'Your book is available' 
+    msg['Subject'] = 'Your book is available'
     msg['To'] = user.email
     msg['From'] = address
 
-    msg.set_content('{},\n\nyour copy of {} is ready.\nread it now at {}'.format(user.username,book.title, book.URL))
+    msg.set_content('{},\n\nyour copy of {} is ready.\nread it now at {}'.format(
+        user.username, book.title, book.URL))
     # VVV can add html to email if we want to get fancy VVV
     # msg.add_alternative("""\
     # <!DOCTYPE html>
@@ -123,7 +125,6 @@ def hold_notification_email(user, book):
     #     </body>
     # </html>
     # """.format(user.username, book.title, book.URL), subtype='html')
-
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(address, password)
