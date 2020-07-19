@@ -149,6 +149,11 @@ body h1 {
   background-size: cover;
 }
 
+.bg_bookform {
+  background: #000 url("../img/book_form.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
 .fade_in {
   animation: black_bg 1s ease-in;
 }
