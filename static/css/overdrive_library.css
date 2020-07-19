@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   font-size: 16px;
 }
 
@@ -17,9 +19,8 @@ header {
 }
 
 main {
-  overflow: hidden;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin: 0;
+  padding: 0;
 }
 
 footer {
@@ -118,4 +119,50 @@ body h1 {
 
 .filter-box {
   flex-grow: 1;
+}
+
+#bg_home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background: #000 url("../img/books.jpg") no-repeat center center fixed;
+  background-size: cover;
+  animation: black_bg 2s ease-in;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+#title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%, -50%);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  letter-spacing: 1rem;
+  animation: title_bg 4s;
+}
+
+@keyframes black_bg {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+@keyframes title_bg {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
 }
