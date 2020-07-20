@@ -202,13 +202,13 @@ class DetailBook(View):
         form = CommentForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            msg = Comment.objects.create(
+            Comment.objects.create(
                 author=usr,
                 book=book,
                 message=data['message']
             )
-            msg.save()
-            HttpResponseRedirect(reverse('detail_book', args=(id, )))
+
+            return HttpResponseRedirect(reverse('detail_book', args=[id]))
 
 
 @login_required
