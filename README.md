@@ -32,6 +32,9 @@ Navigate to your local port on your browser at: [http://127.0.0.1:8000/](http://
 
 Use the navbar buttons at the top of the page to take you to either the login page or to create an account.  Once you are signed in, it's time to look for some books to check out!
 
+## Notes
+
+In using the collectstatic command, Django will look for all static files in this project and will collect them wherever you tell it too.
 
 ## Contributing
 
