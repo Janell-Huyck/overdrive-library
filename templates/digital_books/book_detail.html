@@ -17,7 +17,6 @@
     <h5>{{ book.description }}</h5>
 
     <br>
-    <br>
     {% if user.is_authenticated %}
         {% if checkout %}
             <h5>Read online now: <a href={{ book.URL }} target="_blank">{{ book.URL }}</a> </h5>
@@ -33,7 +32,23 @@
             <br>
             There are currently {{book.holds.count}} holds on this book.
         {% endif %}
+        
+        <br><br><br>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.message }}
+            <button type="submit" class="btn btn-secondary">Submit</button>
+        </form>
     {% endif %}
 
+    <br>
+    <h4>Reviews</h4>
+    {% for comment in comments %}
+        <hr>
+        <p>{{ comment.author }}</p>
+        <p>{{ comment.message }}</p>
+        <p>{{ comment.date }}</p>
+    {% endfor %}
 </div>
 {% endblock body_block %}
