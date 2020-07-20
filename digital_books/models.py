@@ -44,3 +44,13 @@ class HoldOrder(models.Model):
 
     class Meta:
         ordering = ('time_created',)
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    message = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message

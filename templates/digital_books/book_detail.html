@@ -17,23 +17,53 @@
     <h5>{{ book.description }}</h5>
 
     <br>
-    <br>
     {% if user.is_authenticated %}
         {% if checkout %}
             <h5>Read online now: <a href={{ book.URL }} target="_blank">{{ book.URL }}</a> </h5>
-            <a href="{% url 'checkin' book.id %}" class="btn btn-md btn-outline-danger">Return Book</a>
+            <a href="{% url 'checkin' book.id %}" class="btn btn-md btn-outline-danger">
+                <span class="material-icons align-top">undo</span> Return Book
+            </a>
         {% elif book.available == True%}
-            <a href="{% url 'checkout' book.id %}" class="btn btn-md btn-outline-info">Check Out Book</a>
+            <a href="{% url 'checkout' book.id %}" class="btn btn-md btn-outline-info">
+                <span class="material-icons align-top">add_circle</span> Check Out Book
+            </a>
         {% elif held == True%}
-            <a href="{% url 'remove_hold' book.id %}" class="btn btn-md btn-outline-warning">Remove Hold</a>
+            <a href="{% url 'remove_hold' book.id %}" class="btn btn-md btn-outline-warning">
+                <span class="material-icons align-top">pause_circle_filled</span> Remove Hold
+            </a>
             <br>
             You are hold number {{line_number}}
         {% else %}
-            <a href="{% url 'hold' book.id %}" class="btn btn-md btn-outline-primary">Place Hold</a>
+            <a href="{% url 'hold' book.id %}" class="btn btn-md btn-outline-primary">
+                <span class="material-icons align-top">play_circle_filled</span> Place Hold
+            </a>
             <br>
             There are currently {{book.holds.count}} holds on this book.
         {% endif %}
+        
+        <br><br><br>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.message }}
+            <button type="submit" class="btn btn-secondary">Submit</button>
+        </form>
     {% endif %}
 
+    <br>
+    <hr>
+    <h4>Reviews</h4>
+    {% for comment in comments %}
+        <br>
+        <div class="card bg-transparent-2 w-75">
+            <div class="card-body">
+              <h5 class="card-title">
+                  {{ comment.author.username }}
+                  <small class="text-muted">{{ comment.date }}</small>
+              </h5>
+              <p class="card-text">{{ comment.message }}</p>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock body_block %}

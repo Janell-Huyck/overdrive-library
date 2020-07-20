@@ -1,5 +1,5 @@
 from django.contrib import admin
-from digital_books.models import Book, HoldOrder
+from digital_books.models import Book, HoldOrder, Comment
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -21,3 +21,4 @@ class BookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Book, BookAdmin)
+admin.site.register(Comment)

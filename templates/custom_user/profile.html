@@ -12,10 +12,22 @@
                 To perform an action click on any eBook.</p>
         </div>
         <ul class="list-group list-group-flush bg-transparent">
-            <li class="list-group-item bg-transparent"><b>Library Card ID:</b> {{custom_user.library_card_number}}</li>
-            <li class="list-group-item bg-transparent"><b>Username:</b> {{custom_user.username}}</li>
-            <li class="list-group-item bg-transparent"><b>Email:</b> {{custom_user.email}}</li>
-            <li class="list-group-item bg-transparent"><b>Date joined:</b> {{custom_user.signup_date}}</li>
+            <li class="list-group-item bg-transparent">
+                <span class="material-icons align-top">card_travel</span>
+                <b>Library Card ID:</b> {{custom_user.library_card_number}}
+            </li>
+            <li class="list-group-item bg-transparent">
+                <span class="material-icons align-top">account_box</span>
+                <b>Username:</b> {{custom_user.username}}
+            </li>
+            <li class="list-group-item bg-transparent">
+                <span class="material-icons align-top">email</span>
+                <b>Email:</b> {{custom_user.email}}
+            </li>
+            <li class="list-group-item bg-transparent">
+                <span class="material-icons align-top">today</span>
+                <b>Date joined:</b> {{custom_user.signup_date}}
+            </li>
             <li class="list-group-item bg-transparent">
                 <p><b>Librarian:</b>
                     {% if custom_user.is_librarian %}

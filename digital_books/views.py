@@ -3,8 +3,8 @@ from django.shortcuts import HttpResponseRedirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from digital_books.forms import BookForm
-from digital_books.models import Book
+from digital_books.forms import BookForm, CommentForm
+from digital_books.models import Book, Comment
 from digital_books.helpers import scrap_html, random_color, get_sort_title, letters, hold_notification_email
 from custom_user.models import CustomUser
 
@@ -166,8 +166,10 @@ class DetailBook(View):
 
     def get(self, request, id):
         book = Book.objects.get(id=id)
+        comments = Comment.objects.filter(book=book).order_by('-date')
 
         if request.user.is_authenticated:
+            form = CommentForm()
             usr = CustomUser.objects.get(id=request.user.id)
             checkout = False
             if usr in book.checked_out.all():
@@ -180,14 +182,33 @@ class DetailBook(View):
                     if item.user == request.user:
                         line_number = index + 1
         else:
-            return render(request, 'digital_books/book_detail.html', {'book': book})
+            return render(request, 'digital_books/book_detail.html', {
+                'book': book,
+                'comments': comments
+            })
 
         return render(request, 'digital_books/book_detail.html', {
             'book': book,
             'checkout': checkout,
             'held': held,
-            'line_number': line_number
+            'line_number': line_number,
+            'comments': comments,
+            'form': form
         })
+
+    def post(self, request, id):
+        usr = CustomUser.objects.get(id=request.user.id)
+        book = Book.objects.get(id=id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            Comment.objects.create(
+                author=usr,
+                book=book,
+                message=data['message']
+            )
+
+            return HttpResponseRedirect(reverse('detail_book', args=[id]))
 
 
 @login_required

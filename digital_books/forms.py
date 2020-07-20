@@ -1,5 +1,5 @@
 from django import forms
-from digital_books.models import Book
+from digital_books.models import Book, Comment
 
 
 class BookForm(forms.ModelForm):
@@ -28,3 +28,23 @@ class BookForm(forms.ModelForm):
                 attrs={'placeholder': 'e.g. English',
                        'class': 'form-control'})
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('message',)
+        widgets = {
+            'message': forms.Textarea(
+                attrs={'placeholder': 'Your review will help others decide whether to read.',
+                       'class': 'form-control w-50',
+                       'rows': 3})
+        }
+
+
+# class CommentForm(forms.Form):
+#     message = forms.CharField(widget=forms.Textarea(
+#         attrs={'placeholder': 'Type here your review',
+#                'class': 'form-control',
+#                'rows': 3})
+#     )
