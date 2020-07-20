@@ -43,12 +43,19 @@
     {% endif %}
 
     <br>
+    <hr>
     <h4>Reviews</h4>
     {% for comment in comments %}
-        <hr>
-        <p>{{ comment.author }}</p>
-        <p>{{ comment.message }}</p>
-        <p>{{ comment.date }}</p>
+        <br>
+        <div class="card bg-transparent-2 w-75">
+            <div class="card-body">
+              <h5 class="card-title">
+                  {{ comment.author.username }}
+                  <small class="text-muted">{{ comment.date }}</small>
+              </h5>
+              <p class="card-text">{{ comment.message }}</p>
+            </div>
+        </div>
     {% endfor %}
 </div>
 {% endblock body_block %}

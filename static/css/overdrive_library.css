@@ -129,6 +129,10 @@ body h1 {
   background-color: rgb(255, 255, 255, 0.2) !important;
 }
 
+.bg-transparent-2 {
+  background-color: rgb(255, 255, 255, 0.5) !important;
+}
+
 .bg_cover {
   position: fixed;
   top: 0;
