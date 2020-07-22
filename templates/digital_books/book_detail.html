@@ -52,7 +52,7 @@
 
     <br>
     <hr>
-    <h4>Reviews</h4>
+    <h4 class="bg-transparent">Reviews:</h4>
     {% for comment in comments %}
         <br>
         <div class="card bg-transparent-2 w-75">
@@ -64,6 +64,9 @@
               <p class="card-text">{{ comment.message }}</p>
             </div>
         </div>
+        {% empty %}
+        <br>
+        <i>=> No reviews at this moment.</i>
     {% endfor %}
 </div>
 {% endblock body_block %}

@@ -5,12 +5,23 @@ from django import forms
 class SignupForm(forms.ModelForm):
 
     class Meta:
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
         model = CustomUser
         fields = ('username', 'display_name',
                   'email', 'password')
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control short'
+            }),
+            'password': forms.PasswordInput(attrs={
+                'class': 'form-control short'
+            }),
+            'display_name': forms.TextInput(attrs={
+                'class': 'form-control short'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control short'
+            }),
+        }
 
 
 class LoginForm(forms.Form):

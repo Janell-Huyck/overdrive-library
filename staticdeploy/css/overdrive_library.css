@@ -1,3 +1,11 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: "Times New Roman", Times, serif;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -12,9 +20,8 @@ header {
 }
 
 main {
-  overflow: hidden;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin: 0;
+  padding: 0;
 }
 
 footer {
@@ -34,23 +41,28 @@ body h1 {
 .topnav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   background-color: #333;
-  overflow: hidden;
   padding: 10px 12px;
+}
+
+.brand {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.5rem !important;
+  font-weight: bolder;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
-  align-self: flex-start;
   color: #f2f2f2;
   text-align: center;
+  align-self: center;
+  line-height: 1.5rem;
   padding: 10px 12px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 1rem;
+  margin: 0 0.5rem;
 }
 
-/* 
 /* Change the color of links on hover */
 .topnav a:hover {
   background-color: #ddd;
@@ -59,13 +71,11 @@ body h1 {
 
 /* The "signed in as" tag in header */
 .signedIn {
-  align-self: flex-end;
-  justify-self: flex-end;
-  float: right;
   color: #f2f2f2;
   text-align: center;
+  align-self: center;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 1rem;
 }
 
 .spacer {
@@ -74,10 +84,12 @@ body h1 {
 
 .bg_book {
   background-image: url("../img/book_edge.png");
-  padding: 0.5rem;
+  background-size: cover;
+  padding: 0.2rem;
   border-radius: 0.3rem;
   border: 0.5rem solid brown;
-  filter: brightness(1.15);
+  margin: 0.5rem;
+  filter: brightness(1.05);
 }
 
 .bg_book:hover {
@@ -85,9 +97,10 @@ body h1 {
 }
 
 .profile_books {
-  width: 13.5rem;
+  width: 16rem;
   height: 4.5rem;
   background-image: url("../img/book_edge.png");
+  background-size: cover;
   color: black;
   text-align: center;
   border-radius: 0.5rem;
@@ -97,7 +110,7 @@ body h1 {
   margin: 0.3rem;
   font-size: 1rem;
   cursor: pointer;
-  filter: brightness(1.15);
+  filter: brightness(1.05);
 }
 
 .green {
@@ -110,4 +123,98 @@ body h1 {
 
 .filter-box {
   flex-grow: 1;
+}
+
+.bg-transparent {
+  background-color: rgb(255, 255, 255, 0.2) !important;
+}
+
+.bg-transparent-2 {
+  background-color: rgb(255, 255, 255, 0.5) !important;
+}
+
+.bg_cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.bg_home {
+  background: #000 url("../img/books.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_allbooks {
+  background: #000 url("../img/all_books.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_bookform {
+  background: #000 url("../img/book_form.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_bookdetail {
+  background: #000 url("../img/book_detail.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_profile {
+  background: #000 url("../img/book_profile.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_signup {
+  background: #000 url("../img/sing_up.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_login {
+  background: #000 url("../img/login.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.fade_in {
+  animation: black_bg 1s ease-in;
+}
+
+#title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%, -50%);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  letter-spacing: 1rem;
+  animation: title_bg 2s;
+}
+
+.short {
+  width: 18rem;
+}
+
+@keyframes black_bg {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+@keyframes title_bg {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.9;
+  }
 }

@@ -2,10 +2,11 @@
 {% extends '../base.html' %}
 
 {% block body_block %}
+<div class="bg_cover bg_login"></div>
 
 <br>
 {{ message_before }}
-<form action="" method="post">
+<form method="post" style="float:right;">
     {% csrf_token %}
     <div class="userDetails">
         <hr/>
@@ -16,7 +17,7 @@
         <h3>Please enter your password</h3>
         {{ form.password }}
         <br/><hr/><br/>
-        <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+        <input class="btn btn-primary btn-lg" type="submit" value="Log in">
     </div>
     {{ message_after }}
 </form>
