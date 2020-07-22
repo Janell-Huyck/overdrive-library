@@ -2,10 +2,11 @@
 {% extends '../base.html' %}
 
 {% block body_block %}
+<div class="bg_cover bg_login"></div>
 
 <br>
 {{ message_before }}
-<form action="" method="post">
+<form method="post" style="float:right;">
     {% csrf_token %}
     <div class="userDetails">
         <hr/>
