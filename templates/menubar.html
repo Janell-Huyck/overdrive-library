@@ -1,7 +1,9 @@
             <div class="topnav">
                 <a class="brand mr-auto" href="{% url 'home'%}">OVERDRIVE</a>
+                
                 <a class="btn btn-primary btn-sm" href="{% url 'home'%}">Home</a>
-
+                
+                <a class="btn btn-primary btn-sm" href="{% url 'all_books'%}">Browse Books</a>
                 {% comment %} Only shows if you're logged out {% endcomment %}
                 {% if not user.is_authenticated %}
                     <a class="btn btn-primary btn-sm" href="{% url 'create_user'%}">Create New Account</a>
@@ -10,9 +12,7 @@
 
                 {% comment %} Only shows if you're logged in. {% endcomment %}
                 {% if user.is_authenticated %}
-                    <a class="btn btn-primary btn-sm" href="{% url 'all_books'%}">Browse Books</a>
                     <a class="btn btn-primary btn-sm" href="{% url 'profile'%}">Your Profile</a>
-
                 {% endif %}
 
                 {% comment %} Only shows if you're logged in and a librarian. {% endcomment %}
