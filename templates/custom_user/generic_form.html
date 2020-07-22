@@ -2,15 +2,31 @@
 {% extends '../base.html' %}
 
 {% block body_block %}
+<div class="bg_cover bg_signup"></div>
 
 <br>
 {{ message_before }}
-<form action="" method="post">
+<form method="post" class="form-group userDetails">
     {% csrf_token %}
-    <div class="userDetails">
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
+    <div class="form-inline my-4">
+        <label class="h3">Username:</label>
+        {{ form.username }}
+        <span>{{ form.username.help_text }}</span>
     </div>
+    <div class="form-inline my-4">
+        <label class="h3">Display Name:</label>
+        {{ form.display_name }}
+    </div>
+    <div class="form-inline my-4">
+        <label class="h3">Email:</label>
+        {{ form.email }}
+    </div>
+    <div class="form-inline my-4">
+        <label class="h3">Password:</label>
+        {{ form.password }}
+    </div>
+        
+    <input type="submit" value="Sign up" class="btn btn-primary btn-lg">
     {{ message_after }}
 </form>
 {% endblock body_block %}
