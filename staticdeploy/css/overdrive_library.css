@@ -168,6 +168,16 @@ body h1 {
   background-size: cover;
 }
 
+.bg_signup {
+  background: #000 url("../img/sing_up.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg_login {
+  background: #000 url("../img/login.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
 .fade_in {
   animation: black_bg 1s ease-in;
 }
@@ -181,6 +191,11 @@ body h1 {
   font-family: Georgia, "Times New Roman", Times, serif;
   letter-spacing: 1rem;
   animation: title_bg 2s;
+}
+
+
+.short {
+  width: 18rem;
 }
 
 @keyframes black_bg {
